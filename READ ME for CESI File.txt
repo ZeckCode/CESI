@@ -1,0 +1,7 @@
+Extract this and try to your Computer/Laptop, and then Open in File explore this CESI folder. 
+After go to the folder path type cmd. You will go to the terminal and type Code .
+C:\Users\ADMIN>Cd \Users\ADMIN\OneDrive\Desktop\For Development Proj\CESI
+
+C:\Users\ADMIN\OneDrive\Desktop\For Development Proj\CESI>code . 
+Like this the path depends where you put this file. 
+So you can only modify is inside of the CESI Folder Content.
