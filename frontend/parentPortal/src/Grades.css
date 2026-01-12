@@ -1,0 +1,209 @@
+:root {
+  --yellow-main: #FDEF3B;
+  --yellow-light: #FDFD96;
+  --yellow-soft: #FFFFDF;
+  --blue-main: #B1D9EC;
+  --blue-header: #0077b6;
+  --blue-sidebar: #98BCBE;
+  --line-color: #dee2e6;
+}
+
+/* SIDEBAR STICKY LOGIC */
+.sidebar {
+  background-color: var(--blue-sidebar);
+  width: 240px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* SIDEBAR COLLAPSED */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.avatar-circle {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  color: var(--blue-sidebar);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem
+}
+
+.nav-link {
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.active-link {
+  background-color: var(--yellow-main) !important;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Main Content Styles */
+.bg-soft-yellow { background-color: var(--yellow-soft); }
+.bg-blue { background-color: var(--blue-main); }
+.bg-highlight-yellow { background-color: var(--yellow-light) !important; }
+
+.table-header-dark-blue {
+  background-color: var(--blue-header) !important;
+}
+
+.table-bordered {
+  border: 1px solid var(--line-color) !important;
+}
+
+.table-bordered th, 
+.table-bordered td {
+  border: 1px solid var(--line-color) !important;
+  font-size: 0.9rem;
+}
+
+.table td:nth-child(2) {
+  min-width: 250px;
+}
+
+.bg-blue{
+background-color: #B1D9EC !important; 
+}
+
+/* --- Responsive Sidebar Additions START --- */
+.sidebar.collapsed:hover {
+  width: 240px;
+}
+.sidebar .nav-link:hover {
+  background-color: var(--yellow-light) !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+.sidebar-mobile-header {
+  display: none;
+}
+@media (max-width: 767.98px) {
+  .sidebar {
+    display: none !important;
+  }
+  .sidebar-mobile-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--blue-sidebar);
+    padding: 0.75rem 1rem;
+    min-height: 56px;
+    z-index: 1100;
+    position: sticky;
+    top: 0;
+  }
+  .sidebar-mobile-menu {
+    display: block;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: var(--blue-sidebar);
+    z-index: 1200;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+    transform: translateX(-100%);
+  }
+  .sidebar-mobile-menu.open {
+    transform: translateX(0);
+  }
+  .sidebar-mobile-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.2);
+    z-index: 1199;
+  }
+}
+/* --- Responsive Sidebar Additions END --- */
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .sidebar.collapsed {
+    width: 100%;
+  }
+
+  
+/* --- Responsive Sidebar Additions START --- */
+/* Expand sidebar on hover (desktop only) */
+.sidebar.collapsed:hover {
+  width: 240px;
+}
+
+/* Highlight nav-link on hover */
+.sidebar .nav-link:hover {
+  background-color: var(--yellow-light) !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+
+/* Hamburger menu styles for mobile */
+.sidebar-mobile-header {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    display: none !important;
+  }
+  .sidebar-mobile-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--blue-sidebar);
+    padding: 0.75rem 1rem;
+    min-height: 56px;
+    z-index: 1100;
+    position: sticky;
+    top: 0;
+  }
+  .sidebar-mobile-menu {
+    display: block;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: var(--blue-sidebar);
+    z-index: 1200;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+    transform: translateX(-100%);
+  }
+  .sidebar-mobile-menu.open {
+    transform: translateX(0);
+  }
+  .sidebar-mobile-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.2);
+    z-index: 1199;
+  }
+}
+/* --- Responsive Sidebar Additions END --- */
+
+}
