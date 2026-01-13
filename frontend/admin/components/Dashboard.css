@@ -1,0 +1,213 @@
+/* Dashboard Styles */
+.dashboard-main {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid;
+}
+
+.stat-card-blue {
+  border-left-color: #1e40af;
+}
+
+.stat-card-yellow {
+  border-left-color: #fbbf24;
+}
+
+.stat-card-green {
+  border-left-color: #10b981;
+}
+
+.stat-card-purple {
+  border-left-color: #8b5cf6;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.stat-icon {
+  color: #94a3b8;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.stat-change {
+  font-size: 0.875rem;
+  color: #10b981;
+  margin-top: 0.5rem;
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  color: #1e293b;
+}
+
+/* Announcements */
+.announcement-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-icon {
+  margin-right: 0.5rem;
+  color: #1e40af;
+}
+
+.announcement-item {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.announcement-item:last-child {
+  border-bottom: none;
+}
+
+.announcement-item-hover {
+  background-color: #f8fafc;
+}
+
+.announcement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.announcement-title {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.announcement-date {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.announcement-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Schedule */
+.schedule-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-item {
+  display: flex;
+  padding: 1rem;
+  border-left: 3px solid #1e40af;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.schedule-item:last-child {
+  margin-bottom: 0;
+}
+
+.schedule-time {
+  font-weight: 600;
+  color: #1e40af;
+  min-width: 80px;
+  font-size: 0.875rem;
+}
+
+.schedule-details {
+  flex: 1;
+}
+
+.schedule-class {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.schedule-teacher {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+:root {
+  --primary-yellow: #FFEB3B;
+  --yellow-light: #FFF9C4;
+  --yellow-dark: #FBC02D;
+  --primary-blue: #2196F3;
+  --blue-light: #BBDEFB;
+  --blue-dark: #1976D2;
+}
