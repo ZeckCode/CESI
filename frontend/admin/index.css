@@ -1,6 +1,6 @@
 /* Global Reset and Base Styles */
 * {
-  margin: 0;
+  margin: 1;
   padding: 0;
   box-sizing: border-box;
 }
@@ -26,4 +26,5 @@ button {
 a {
   text-decoration: none;
   color: inherit;
+
 }
