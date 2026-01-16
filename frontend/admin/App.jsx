@@ -1,42 +1,56 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
+import Sidebar from './components/shared/Sidebar';
+import Header from './components/shared/Header';
+import Dashboard from './components/pages/Dashboard';
+import EnrollmentManagement from './components/pages/EnrollmentManagement';
+import TransactionHistory from './components/pages/TransactionHistory';
+import PaymentReminders from './components/pages/PaymentReminders';
+import Reports from './components/pages/Reports';
+import UserManagement from './components/pages/UserManagement';
+import Classes from './components/pages/Classes';
+import Subjects from './components/pages/Subjects';
+import AssignTeachers from './components/pages/AssignTeachers';
 import './App.css';
 
 function App() {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleMenuClick = (menuId) => {
     setActiveMenu(menuId);
-    // Add routing logic here when you create other pages
-    // e.g., navigate to different components based on menuId
   };
 
   const handleToggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
+    setSidebarCollapsed(!sidebarCollapsed);
   };
 
-  // Render different components based on activeMenu
   const renderContent = () => {
     switch(activeMenu) {
       case 'dashboard':
         return <Dashboard />;
       case 'enrollment':
-        return <div>Enrollment Management - Coming Soon</div>;
-      case 'financial':
-        return <div>Financial Management - Coming Soon</div>;
+        return <EnrollmentManagement />;
+      case 'transaction-history':
+        return <TransactionHistory />;
+      case 'payment-reminders':
+        return <PaymentReminders />;
+      case 'generate-reports':
+        return <Reports />;
       case 'users':
-        return <div>User Management - Coming Soon</div>;
+        return <UserManagement />;
       case 'classes':
-        return <div>Class Management - Coming Soon</div>;
+        return <Classes />;
+      case 'subjects':
+        return <Subjects />;
+      case 'assign-teachers':
+        return <AssignTeachers />;
       case 'grades':
         return <div>Grades & Records - Coming Soon</div>;
       case 'cms':
         return <div>CMS Module - Coming Soon</div>;
       case 'reports':
-        return <div>Reports - Coming Soon</div>;
+        return <Reports />;
       case 'notifications':
         return <div>SMS & Email - Coming Soon</div>;
       case 'messages':
@@ -52,7 +66,9 @@ function App() {
       enrollment: 'Enrollment Management',
       financial: 'Financial Management',
       users: 'User Management',
-      classes: 'Class Management',
+      classes: 'Classes',
+      subjects: 'Subjects',
+      'assign-teachers': 'Assign Teachers',
       grades: 'Grades & Records',
       cms: 'CMS Module',
       reports: 'Reports',
@@ -68,16 +84,16 @@ function App() {
         activeMenu={activeMenu}
         onMenuClick={handleMenuClick}
         isVisible={sidebarVisible}
+        isCollapsed={sidebarCollapsed}
+        onToggleCollapse={handleToggleSidebar}
       />
-      
       <div className={`main-content ${!sidebarVisible ? 'main-content-expanded' : ''}`}>
         <Header 
           title={getPageTitle()}
           subtitle="Welcome back! Here's what's happening today."
-          onToggleSidebar={handleToggleSidebar}
-          sidebarVisible={sidebarVisible}
+          onToggleCollapse={handleToggleSidebar}
+          sidebarCollapsed={sidebarCollapsed}
         />
-        
         {renderContent()}
       </div>
     </div>
