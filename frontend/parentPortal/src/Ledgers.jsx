@@ -1,5 +1,8 @@
+
 import React, { useState } from 'react';
 import './Ledgers.css';
+
+// (Duplicate TransactionForm removed)
 
 // --- Responsive Sidebar Additions START ---
 const navLinks = [
@@ -15,12 +18,21 @@ const Ledgers = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
-  const ledgerData = [
-    { id: 1, year: "2025-2026", item: "Payments", tDate: "06-09-2025", pDate: "06-10-2025", debit: "0.00", credit: "15,000", balance: "-15,000" },
-    { id: 2, year: "2025-2026", item: "Registration", tDate: "06-09-2025", pDate: "06-13-2025", debit: "26,900", credit: "0.00", balance: "11,900" },
-    { id: 3, year: "2025-2026", item: "Payments", tDate: "06-10-2025", pDate: "07-04-2025", debit: "0.00", credit: "3,500", balance: "8,400" },
-    { id: 4, year: "2025-2026", item: "Payments", tDate: "07-03-2025", pDate: "07-08-2025", debit: "0.00", credit: "8,400", balance: "0.00" },
-  ];
+  const [ledgerData, setLedgerData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('http://localhost:8000/api/finance/transactions/')
+      .then(response => response.json())
+      .then(data => {
+        setLedgerData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching ledger:', error);
+        setLoading(false);
+      });
+  }, []);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -127,43 +139,36 @@ const Ledgers = () => {
                 <thead className="bg-light-yellow">
                   <tr>
                     <th className="ps-4">#</th>
-                    <th>School Year</th>
-                    <th>Item</th>
-                    <th>Transaction Date</th>
-                    <th>Date Posted</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th className="pe-4">Balance</th>
+                    <th>Student Name</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Date Created</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ledgerData.map((row) => (
                     <tr key={row.id}>
                       <td className="ps-4 fw-bold text-muted">{row.id}</td>
-                      <td>{row.year}</td>
-                      <td><span className="badge bg-info-subtle text-dark border">{row.item}</span></td>
-                      <td>{row.tDate}</td>
-                      <td>{row.pDate}</td>
-                      <td className="text-danger">{row.debit}</td>
-                      <td className="text-success">{row.credit}</td>
-                      <td className={`pe-4 fw-bold ${parseFloat(row.balance.replace(/,/g, '')) > 0 ? 'text-primary' : 'text-dark'}`}>
-                        {row.balance}
-                      </td>
+                      <td>{row.student_name}</td>
+                      <td>{row.transaction_type}</td>
+                      <td>{row.amount}</td>
+                      <td>{row.description}</td>
+                      <td>{new Date(row.date_created).toLocaleString()}</td>
+                      <td>{row.status}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-
-          <div className="card-footer bg-white border-0 p-3 d-flex justify-content-end gap-2">
-            <button className="btn btn-outline-secondary btn-sm px-4">Previous</button>
-            <button className="btn btn-warning btn-sm px-4 fw-bold">Next</button>
-          </div>
         </div>
       </main>
     </div>
   );
 };
+
+
 
 export default Ledgers;

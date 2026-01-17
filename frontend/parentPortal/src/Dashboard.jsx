@@ -190,7 +190,7 @@ const Dashboard = () => {
                     <img src="/nig.jpg" alt="Event" className="img-fluid rounded-3 shadow-sm" />
                   </div>
                   <div className="col-md-8">
-                    <h5 className="fw-bold">Tirahin si Baltao</h5>
+                    <h5 className="fw-bold">Back to School</h5>
                     <p className="text-muted">Welcome back Students! Get ready for exciting events, schedules, and enjoy your school days!</p>
                   </div>
                 </div>
