@@ -9,4 +9,5 @@ urlpatterns = [
     path('', home),  # root URL
     path('admin/', admin.site.urls),
     path('announcements/', include('announcements.urls')),
+    path('api/finance/', include('finance.urls')),
 ]
