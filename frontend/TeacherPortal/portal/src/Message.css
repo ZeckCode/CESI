@@ -1,0 +1,76 @@
+:root {
+  --yellow-main: #FDEF3B;
+  --yellow-soft: #FFFFDF;
+  --blue-sidebar: #98BCBE;
+}
+
+/* Sidebar & General Layout */
+.sidebar {
+  background-color: var(--blue-sidebar);
+  width: 240px; flex-shrink: 0; position: sticky; top: 0; height: 100vh;
+  z-index: 1000; transition: width 0.3s ease; overflow-x: hidden;
+}
+.sidebar.collapsed { width: 80px; }
+.avatar-circle-sidebar {
+  width: 60px; height: 60px; background-color: white; color: var(--blue-sidebar);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 1.2rem;
+}
+.nav-link { transition: all 0.2s ease; border-radius: 8px; margin: 0.2rem 0; white-space: nowrap; }
+.active-link { background-color: var(--yellow-main) !important; color: #333 !important; font-weight: bold; }
+
+/* Chat Container Height Logic */
+.bg-soft-yellow { background-color: var(--yellow-soft); }
+.chat-main-wrapper {
+  height: calc(100vh - 160px);
+}
+
+/* Chat List Items */
+.chat-list-scroll { background-color: white; }
+.chat-item {
+  transition: all 0.2s;
+  border-left: 4px solid transparent;
+}
+.chat-item:hover { background-color: #f8f9fa; }
+.active-chat {
+  background-color: rgba(152, 188, 190, 0.15) !important;
+  border-left-color: var(--blue-sidebar) !important;
+}
+
+/* Avatars & Icons */
+.group-icon-circle, .group-icon-circle-header {
+  width: 45px; height: 45px; background-color: #f0f2f5; color: #54656f;
+  border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.avatar-small {
+  width: 45px; height: 45px; background-color: var(--blue-sidebar); color: white;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 1.1rem;
+}
+
+/* Message Bubbles */
+.bg-light-chat { background-color: #f0f2f5; }
+.message-bubble {
+  max-width: 75%;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.message-bubble.received {
+  background-color: #ffffff;
+  color: #111b21;
+}
+.message-bubble.sent {
+  background-color: #0077b6 !important;
+}
+
+/* Input Styles */
+.send-btn { transform: scale(0.9); transition: transform 0.2s; }
+.send-btn:hover { transform: scale(1); }
+
+.x-small { font-size: 0.7rem; }
+.pointer { cursor: pointer; }
+
+@media (max-width: 768px) {
+  .chat-main-wrapper { height: calc(100vh - 120px); }
+  .sidebar { display: none !important; }
+}
