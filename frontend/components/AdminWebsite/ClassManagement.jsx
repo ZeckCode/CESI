@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter, Clock, Users, BookOpen, Calendar } from 'lucide-react';
-import '../AdminDashboardCSS/ClassManagement.css';
+import '../AdminWebsiteCSS/ClassManagement.css';
 
 /**
  * ClassManagement Component
@@ -16,9 +16,18 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
     { id: 4, name: 'Kindergarten-A', gradeLevel: 'Kindergarten', teacher: 'Mrs. Susan Williams', capacity: 25, enrolled: 24, subjects: ['Art', 'Music', 'Science Basics'], schedule: 'Mon-Fri, 9:00 AM - 12:00 PM' },
   ]);
 
+  // Available teachers
+  const [availableTeachers] = useState([
+    'Mrs. Jennifer Johnson',
+    'Mr. David Santos',
+    'Ms. Maria Garcia',
+    'Mr. Robert Brown',
+    'Mrs. Susan Williams',
+  ]);
+
   // Available subjects
   const [availableSubjects, setAvailableSubjects] = useState([
-    'Math', 'Language Arts', 'Science', 'Social Studies',
+    'Math', 'Language Arts', 'Science', 'Social Studies', 
     'Physical Education', 'Art', 'Music', 'Science Basics',
     'Computer Science', 'Environmental Studies'
   ]);
@@ -48,16 +57,14 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
   const [showTeacherForm, setShowTeacherForm] = useState(false);
   const [showAssignmentForm, setShowAssignmentForm] = useState(false);
   const [editingClassId, setEditingClassId] = useState(null);
-
-  // ✅ RESTORED (this fixes "setSelectedTeacherForAssignment is not defined")
-  const [, setSelectedTeacherForAssignment] = useState(null);
-
+  const [editingSubjectId, setEditingSubjectId] = useState(null);
+  const [editingTeacherId, setEditingTeacherId] = useState(null);
+  const [selectedTeacherForAssignment, setSelectedTeacherForAssignment] = useState(null);
   const [assignmentFormData, setAssignmentFormData] = useState({
     classId: '',
     teacherId: '',
     subjects: []
   });
-
   const [classFormData, setClassFormData] = useState({
     name: '',
     gradeLevel: '',
@@ -67,16 +74,13 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
     subjects: [],
     schedule: ''
   });
-
   const [newSubject, setNewSubject] = useState('');
   const [newTeacher, setNewTeacher] = useState('');
 
   // Filter classes
   const filteredClasses = classes.filter(cls => {
-    const matchesSearch =
-      cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (cls.teacher || '').toLowerCase().includes(searchTerm.toLowerCase());
-
+    const matchesSearch = cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         cls.teacher.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesGrade = filterGrade === 'All' || cls.gradeLevel === filterGrade;
     return matchesSearch && matchesGrade;
   });
@@ -107,22 +111,17 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
       return;
     }
 
-    // ✅ normalize numbers (prevents NaN + progress bar issues)
-    const payload = {
-      ...classFormData,
-      capacity: Number(classFormData.capacity) || 0,
-      enrolled: Number(classFormData.enrolled) || 0,
-    };
-
     if (editingClassId) {
-      setClasses(classes.map(c =>
-        c.id === editingClassId ? { ...payload, id: editingClassId } : c
+      // UPDATE class
+      setClasses(classes.map(c => 
+        c.id === editingClassId ? { ...classFormData, id: editingClassId } : c
       ));
       setEditingClassId(null);
     } else {
+      // ADD new class
       const newClass = {
         id: Math.max(...classes.map(c => c.id), 0) + 1,
-        ...payload
+        ...classFormData
       };
       setClasses([...classes, newClass]);
     }
@@ -132,11 +131,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
   // Edit class
   const handleEditClass = (classItem) => {
-    setClassFormData({
-      ...classItem,
-      capacity: classItem.capacity ?? '',
-      enrolled: classItem.enrolled ?? '',
-    });
+    setClassFormData(classItem);
     setEditingClassId(classItem.id);
     setShowClassForm(true);
   };
@@ -164,9 +159,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
   // Subject management
   const handleAddSubject = () => {
-    const val = newSubject.trim();
-    if (val && !availableSubjects.includes(val)) {
-      setAvailableSubjects([...availableSubjects, val]);
+    if (newSubject.trim() && !availableSubjects.includes(newSubject.trim())) {
+      setAvailableSubjects([...availableSubjects, newSubject.trim()]);
       setNewSubject('');
     }
   };
@@ -183,18 +177,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
   // Teacher management
   const handleAddTeacher = () => {
-    const val = newTeacher.trim();
-    if (val && !teachers.some(t => t.name === val)) {
-      setTeachers([
-        ...teachers,
-        {
-          id: Math.max(...teachers.map(t => t.id), 0) + 1,
-          name: val,
-          // ✅ prevent undefined in UI
-          qualifications: '—',
-          experience: '—',
-        }
-      ]);
+    if (newTeacher.trim() && !teachers.some(t => t.name === newTeacher.trim())) {
+      setTeachers([...teachers, { id: Math.max(...teachers.map(t => t.id), 0) + 1, name: newTeacher.trim() }]);
       setNewTeacher('');
     }
   };
@@ -202,11 +186,13 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
   const handleDeleteTeacher = (teacherId, teacherName) => {
     if (window.confirm(`Delete teacher "${teacherName}"?`)) {
       setTeachers(teachers.filter(t => t.id !== teacherId));
+      // Remove from assignments
       setTeacherAssignments(prev => {
         const updated = { ...prev };
         delete updated[teacherId];
         return updated;
       });
+      // Remove from classes
       setClasses(classes.map(c => ({
         ...c,
         teacher: c.teacher === teacherName ? '' : c.teacher
@@ -278,13 +264,11 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
     });
   };
 
-  // Statistics (safe numbers)
+  // Statistics
   const stats = {
     totalClasses: classes.length,
-    totalStudents: classes.reduce((sum, c) => sum + (Number(c.enrolled) || 0), 0),
-    avgCapacity: classes.length
-      ? Math.round(classes.reduce((sum, c) => sum + (Number(c.capacity) || 0), 0) / classes.length)
-      : 0,
+    totalStudents: classes.reduce((sum, c) => sum + c.enrolled, 0),
+    avgCapacity: Math.round(classes.reduce((sum, c) => sum + c.capacity, 0) / classes.length),
     gradeCount: new Set(classes.map(c => c.gradeLevel)).size
   };
 
@@ -302,28 +286,28 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* Tabs */}
       <div className="tabs-container">
-        <button
+        <button 
           className={`tab-btn ${activeTab === 'classes' ? 'active' : ''}`}
           onClick={() => { setActiveTab('classes'); setSearchTerm(''); setFilterGrade('All'); }}
         >
           <BookOpen size={18} />
           Classes ({stats.totalClasses})
         </button>
-        <button
+        <button 
           className={`tab-btn ${activeTab === 'schedule' ? 'active' : ''}`}
           onClick={() => { setActiveTab('schedule'); setSearchTerm(''); }}
         >
           <Calendar size={18} />
           Schedules
         </button>
-        <button
+        <button 
           className={`tab-btn ${activeTab === 'subjects' ? 'active' : ''}`}
           onClick={() => { setActiveTab('subjects'); setSearchTerm(''); }}
         >
           <BookOpen size={18} />
           Subjects
         </button>
-        <button
+        <button 
           className={`tab-btn ${activeTab === 'assign-teachers' ? 'active' : ''}`}
           onClick={() => { setActiveTab('assign-teachers'); setSearchTerm(''); }}
         >
@@ -357,7 +341,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>{editingClassId ? 'Edit Class' : 'Add New Class'}</h2>
-
+            
             <div className="form-group">
               <label>Class Name *</label>
               <input
@@ -493,15 +477,15 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                       <p className="class-grade">{cls.gradeLevel}</p>
                     </div>
                     <div className="card-actions">
-                      <button
-                        className="btn-edit"
+                      <button 
+                        className="btn-edit" 
                         onClick={() => handleEditClass(cls)}
                         title="Edit"
                       >
                         <Edit2 size={16} />
                       </button>
-                      <button
-                        className="btn-delete"
+                      <button 
+                        className="btn-delete" 
                         onClick={() => handleDeleteClass(cls.id)}
                         title="Delete"
                       >
@@ -521,12 +505,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                       <span className="value enrollment-bar">
                         {cls.enrolled}/{cls.capacity}
                         <div className="progress-bar">
-                          <div
-                            className="progress-fill"
-                            style={{
-                              width: cls.capacity ? `${(cls.enrolled / cls.capacity) * 100}%` : '0%',
-                            }}
-                          />
+                          <div className="progress-fill" style={{ width: `${(cls.enrolled/cls.capacity)*100}%` }}></div>
                         </div>
                       </span>
                     </div>
@@ -636,8 +615,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                 <div key={idx} className="subject-card">
                   <div className="subject-card-header">
                     <h3>{subject}</h3>
-                    <button
-                      className="btn-delete"
+                    <button 
+                      className="btn-delete" 
                       onClick={() => handleDeleteSubject(subject)}
                       title="Delete subject"
                     >
@@ -666,11 +645,11 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Assign Teacher to Class</h2>
-
+            
             <div className="form-group">
               <label>Select Class *</label>
-              <select
-                value={assignmentFormData.classId}
+              <select 
+                value={assignmentFormData.classId} 
                 onChange={(e) => setAssignmentFormData({ ...assignmentFormData, classId: e.target.value })}
               >
                 <option value="">Select a class...</option>
@@ -739,11 +718,10 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
           <div className="teachers-grid">
             {teachers.map((teacher) => {
               const assignments = teacherAssignments[teacher.id] || {};
-              const assignedClasses = Object.keys(assignments).map(classId =>
+              const assignedClasses = Object.keys(assignments).map(classId => 
                 classes.find(c => c.id == classId)
               ).filter(Boolean);
-
-              const totalStudents = assignedClasses.reduce((sum, cls) => sum + (Number(cls.enrolled) || 0), 0);
+              const totalStudents = assignedClasses.reduce((sum, cls) => sum + cls.enrolled, 0);
 
               return (
                 <div key={teacher.id} className="teacher-card-large">
@@ -752,8 +730,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                       <h3>{teacher.name}</h3>
                       <p className="teacher-credentials">{teacher.qualifications}</p>
                     </div>
-                    <button
-                      className="btn-delete"
+                    <button 
+                      className="btn-delete" 
                       onClick={() => handleDeleteTeacher(teacher.id, teacher.name)}
                       title="Delete teacher"
                     >
@@ -809,7 +787,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                     </div>
 
                     {/* Add Assignment Button */}
-                    <button
+                    <button 
                       className="btn-primary-outline"
                       onClick={() => handleOpenAssignmentForm(teacher.id)}
                     >
@@ -832,7 +810,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* Developer Notes */}
       <div className="note">
-        📌 <strong>Development Notes:</strong>
+        📌 <strong>Development Notes:</strong> 
         <ul>
           <li>Connect to backend API for class CRUD operations (POST, PUT, DELETE)</li>
           <li>Sync teacher assignments with User Management (Teachers)</li>

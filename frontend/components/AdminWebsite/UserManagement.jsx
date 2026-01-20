@@ -9,7 +9,7 @@ import '../AdminWebsiteCSS/UserManagement.css';
  */
 const UserManagement = () => {
   // AUTO-POPULATED STUDENTS - In production, fetch from Enrollment API
-  const [students, ] = useState([
+  const [students, setStudents] = useState([
     { id: 1, name: 'John Smith', gradeLevel: 'Grade 1', enrollmentDate: '2026-01-10', status: 'Active', parentName: 'Robert Smith', email: 'john.smith@school.edu', phone: '555-0101' },
     { id: 2, name: 'Sarah Johnson', gradeLevel: 'Kindergarten', enrollmentDate: '2025-12-15', status: 'Active', parentName: 'Mary Johnson', email: 'sarah.j@school.edu', phone: '555-0102' },
     { id: 3, name: 'Michael Davis', gradeLevel: 'Grade 2', enrollmentDate: '2026-01-05', status: 'Active', parentName: 'James Davis', email: 'michael.d@school.edu', phone: '555-0103' },

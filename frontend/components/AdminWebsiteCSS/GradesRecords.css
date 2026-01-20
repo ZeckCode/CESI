@@ -1,9 +1,10 @@
 /* Grades & Records Styles */
 .grades-records-main {
   padding: 2rem;
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
   background-color: #f8f9fa;
+  box-sizing: border-box;
 }
 
 .gr-section {
@@ -354,29 +355,33 @@ border-color: #2196F3;
 }
 /* Table */
 .gr-table-container {
-background-color: white;
-border-radius: 0.75rem;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-overflow-x: auto;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .gr-table {
-width: 100%;
-border-collapse: collapse;
-min-width: 1200px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 0;
+  table-layout: auto;
+  max-width: 100%;
 }
 .gr-table thead {
 background-color: #f8fafc;
 }
 .gr-table th {
-padding: 1rem;
-text-align: left;
-font-size: 0.875rem;
-font-weight: 600;
-color: #475569;
-text-transform: uppercase;
-letter-spacing: 0.05em;
-border-bottom: 2px solid #e2e8f0;
-white-space: nowrap;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: normal;
+  word-break: break-word;
 }
 .gr-table tbody tr {
 border-bottom: 1px solid #e2e8f0;
@@ -386,9 +391,11 @@ transition: background-color 0.2s ease;
 background-color: #f8fafc;
 }
 .gr-table td {
-padding: 1rem;
-font-size: 0.9rem;
-color: #1e293b;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  white-space: normal;
+  word-break: break-word;
 }
 .gr-student-id {
 font-family: 'Courier New', monospace;
@@ -508,6 +515,16 @@ padding: 1rem;
 }
 .gr-section-header {
 flex-direction: column;
+}
+
+/* Mobile: convert table to stacked cards to avoid horizontal scrolling */
+@media (max-width: 600px) {
+  .gr-table { border: 0; }
+  .gr-table thead { display: none; }
+  .gr-table tbody tr { display: block; margin-bottom: 0.75rem; border: 1px solid rgba(15,23,42,0.04); border-radius: 8px; padding: 0.5rem; background: white; }
+  .gr-table tbody tr td { display: flex; justify-content: space-between; padding: 0.6rem 0.5rem; border-bottom: 1px dashed rgba(15,23,42,0.03); }
+  .gr-table tbody tr td:last-child { border-bottom: 0; }
+  .gr-search-box { min-width: 0; }
 }
 .gr-header-actions {
 width: 100%;

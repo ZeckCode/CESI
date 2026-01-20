@@ -1,57 +1,59 @@
-import { useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import Dashboard from "./Dashboard";
-import EnrollmentManagement from "./EnrollmentManagement";
-import TransactionHistory from "./TransactionHistory";
-import PaymentReminders from "./PaymentReminders";
-import Reports from "./Reports";
-import UserManagement from "./UserManagement";
-import AssignTeachers from "./AssignTeachers";
-import GradesRecords from "./GradesRecords";
-import CMSModule from "./CMSModule";
+import React, { useState } from 'react';
+import Sidebar from './Sidebar';
+import Header from './Header';
+import Dashboard from './Dashboard';
+import EnrollmentManagement from './EnrollmentManagement';
+import TransactionHistory from './TransactionHistory';
+import PaymentReminders from './PaymentReminders';
+import Reports from './Reports';
+import UserManagement from './UserManagement';
+import ClassManagement from './ClassManagement';
+import Subjects from './Subjects';
+import AssignTeachers from './AssignTeachers';
+import GradesRecords from './GradesRecords';
+import FloatingMessages from './FloatingMessages';
+import CMSModule from './CMSModule';
 
-import "../AdminWebsiteCSS/App.css";
+import '../AdminWebsiteCSS/AdminDashboard.css';
 
-function AdminDashboard({ user, onLogout }) {
-  const [activeMenu, setActiveMenu] = useState("dashboard");
+function AdminDashboard() {
+  const [activeMenu, setActiveMenu] = useState('dashboard');
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleMenuClick = (menuId) => {
-    // ✅ logout from sidebar item
-    if (menuId === "logout") {
-      onLogout?.();
-      return;
-    }
     setActiveMenu(menuId);
   };
 
   const handleToggleSidebar = () => {
-    setSidebarCollapsed((prev) => !prev);
+    setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const renderContent = () => {
-    switch (activeMenu) {
-      case "dashboard":
+    switch(activeMenu) {
+      case 'dashboard':
         return <Dashboard />;
-      case "enrollment":
+      case 'enrollment':
         return <EnrollmentManagement />;
-      case "transaction-history":
+      case 'transaction-history':
         return <TransactionHistory />;
-      case "payment-reminders":
+      case 'payment-reminders':
         return <PaymentReminders />;
-      case "generate-reports":
+      case 'generate-reports':
         return <Reports />;
-      case "users":
+      case 'users':
         return <UserManagement />;
-      case "assign-teachers":
+      case 'classes':
+        return <ClassManagement />;
+      case 'subjects':
+        return <Subjects />;
+      case 'assign-teachers':
         return <AssignTeachers />;
-      case "grades":
+      case 'grades':
         return <GradesRecords />;
-      case "cms":
+      case 'cms':
         return <CMSModule />;
-      case "reports":
+      case 'reports':
         return <Reports />;
       default:
         return <Dashboard />;
@@ -60,23 +62,24 @@ function AdminDashboard({ user, onLogout }) {
 
   const getPageTitle = () => {
     const titles = {
-      dashboard: "Dashboard",
-      enrollment: "Enrollment Management",
-      financial: "Financial Management",
-      users: "User Management",
-      "assign-teachers": "Assign Teachers",
-      grades: "Grades & Records",
-      cms: "CMS Module",
-      reports: "Reports",
+      dashboard: 'Dashboard',
+      enrollment: 'Enrollment Management',
+      financial: 'Financial Management',
+      users: 'User Management',
+      classes: 'Classes',
+      subjects: 'Subjects',
+      'assign-teachers': 'Assign Teachers',
+      grades: 'Grades & Records',
+      cms: 'CMS Module',
+      reports: 'Reports',
+      notifications: 'SMS & Email'
     };
-    return titles[activeMenu] || "Dashboard";
+    return titles[activeMenu] || 'Dashboard';
   };
 
   return (
     <div className="app-container">
-      <Sidebar
-        user={user}            // ✅ now real user from App.jsx
-        onLogout={onLogout}    // ✅ sidebar logout button works
+      <Sidebar 
         activeMenu={activeMenu}
         onMenuClick={handleMenuClick}
         isVisible={sidebarVisible}
@@ -84,20 +87,19 @@ function AdminDashboard({ user, onLogout }) {
         onToggleCollapse={handleToggleSidebar}
       />
 
-      <div className={`main-content ${!sidebarVisible ? "main-content-expanded" : ""}`}>
-        <Header
+      <div className={`main-content ${!sidebarVisible ? 'main-content-expanded' : ''}`}>
+        <Header 
           title={getPageTitle()}
-          subtitle={
-            user
-              ? `Welcome back, ${user.username}! Here's what's happening today.`
-              : "Welcome back! Here's what's happening today."
-          }
+          subtitle="Welcome back! Here's what's happening today."
           onToggleCollapse={handleToggleSidebar}
           sidebarCollapsed={sidebarCollapsed}
         />
 
         {renderContent()}
       </div>
+
+      {/* GLOBAL FLOATING MESSAGES */}
+      <FloatingMessages />
     </div>
   );
 }

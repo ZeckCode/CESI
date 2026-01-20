@@ -1,69 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Users, Calendar, DollarSign, TrendingUp, Bell } from 'lucide-react';
 import '../AdminWebsiteCSS/Dashboard.css';
 
-const API_URL = "http://127.0.0.1:8000/announcements/";
-
-export default function Dashboard() {
+const Dashboard = () => {
   const [hoveredAnnouncement, setHoveredAnnouncement] = useState(null);
-
-  const [announcements, setAnnouncements] = useState([]);
-  const [announcement, setAnnouncement] = useState(""); // textarea value
-  const [showModal, setShowModal] = useState(false);
-
-  // Fetch announcements
-  useEffect(() => {
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => setAnnouncements(data))
-      .catch((err) => console.error("Failed to fetch announcements:", err));
-  }, []);
-
-  // Post announcement
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: announcement }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setAnnouncements((prev) => [data, ...prev]);
-        setAnnouncement("");
-        setShowModal(false);
-      })
-      .catch((err) => console.error("Failed to post announcement:", err));
-  };
 
   // Sample data - Replace with API calls
   const enrollmentData = [
-    { level: "Kindergarten", students: 48 },
-    { level: "Grade 1", students: 52 },
-    { level: "Grade 2", students: 46 },
-    { level: "Grade 3", students: 50 },
-    { level: "Grade 4", students: 49 },
-    { level: "Grade 5", students: 45 },
-    { level: "Grade 6", students: 42 },
+    { level: 'Kindergarten', students: 48 },
+    { level: 'Grade 1', students: 52 },
+    { level: 'Grade 2', students: 46 },
+    { level: 'Grade 3', students: 50 },
+    { level: 'Grade 4', students: 49 },
+    { level: 'Grade 5', students: 45 },
+    { level: 'Grade 6', students: 42 }
   ];
 
   const paymentData = [
-    { name: "Paid", value: 120, color: "#10b981" },
-    { name: "Pending", value: 15, color: "#fbbf24" },
-    { name: "Overdue", value: 10, color: "#ef4444" },
+    { name: 'Paid', value: 120, color: '#10b981' },
+    { name: 'Pending', value: 15, color: '#fbbf24' },
+    { name: 'Overdue', value: 10, color: '#ef4444' }
+  ];
+
+  const announcements = [
+    {
+      id: 1,
+      title: 'School Field Trip - Zoo Visit',
+      date: '2026-01-15',
+      content: 'All Kindergarten students are invited to join our educational trip to the zoo next Friday.'
+    },
+    {
+      id: 2,
+      title: 'Parent-Teacher Conference',
+      date: '2026-01-12',
+      content: 'Scheduled meetings with parents on January 20-21. Please check your assigned time slots.'
+    },
+    {
+      id: 3,
+      title: 'Art Exhibition Week',
+      date: '2026-01-10',
+      content: 'Students artwork will be displayed in the main hall from January 25-30.'
+    }
   ];
 
   const todaySchedule = [
-    { time: "8:00 AM", class: "Kindergarten A - Math Fundamentals", teacher: "Mrs. Johnson" },
-    { time: "9:30 AM", class: "Grade 1 B - Language Arts", teacher: "Mr. Santos" },
-    { time: "11:00 AM", class: "Grade 2 - Science Fun", teacher: "Ms. Garcia" },
-    { time: "1:00 PM", class: "Grade 3 A - Physical Education", teacher: "Mrs. Lee" },
+    { time: '8:00 AM', class: 'Kindergarten A - Math Fundamentals', teacher: 'Mrs. Johnson' },
+    { time: '9:30 AM', class: 'Grade 1 B - Language Arts', teacher: 'Mr. Santos' },
+    { time: '11:00 AM', class: 'Grade 2 - Science Fun', teacher: 'Ms. Garcia' },
+    { time: '1:00 PM', class: 'Grade 3 A - Physical Education', teacher: 'Mrs. Lee' }
   ];
 
   return (
-     <div className="dashboard-page">
     <main className="dashboard-main">
       {/* Stats Overview */}
       <section className="dashboard-section">
@@ -109,7 +97,6 @@ export default function Dashboard() {
       {/* Charts Section */}
       <section className="dashboard-section">
         <h2 className="section-title">Analytics Overview</h2>
-
         <div className="charts-grid">
           <div className="chart-card">
             <h3 className="chart-title">Students per Level</h3>
@@ -134,8 +121,9 @@ export default function Dashboard() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
                   outerRadius={80}
+                  fill="#8884d8"
                   dataKey="value"
                 >
                   {paymentData.map((entry, index) => (
@@ -151,67 +139,32 @@ export default function Dashboard() {
 
       {/* Announcements and Schedule */}
       <div className="charts-grid">
-        {/* Announcements */}
         <div className="announcement-card">
           <div className="card-header">
             <Bell size={20} className="card-icon" />
             <h3 className="chart-title">Recent Announcements</h3>
           </div>
-
-          <div className="announcements-header">
-            <h3>Announcements</h3>
-            <button onClick={() => setShowModal(true)}>+ Post</button>
-          </div>
-
-          {announcements.map((a) => (
+          {announcements.map((announcement) => (
             <div
-              key={a.id}
-              className={`announcement-item ${
-                hoveredAnnouncement === a.id ? "announcement-item-hover" : ""
-              }`}
-              onMouseEnter={() => setHoveredAnnouncement(a.id)}
+              key={announcement.id}
+              className={`announcement-item ${hoveredAnnouncement === announcement.id ? 'announcement-item-hover' : ''}`}
+              onMouseEnter={() => setHoveredAnnouncement(announcement.id)}
               onMouseLeave={() => setHoveredAnnouncement(null)}
             >
               <div className="announcement-header">
-                <span className="announcement-title">{a.title ?? "Announcement"}</span>
-                <span className="announcement-date">
-                  {a.created_at ? new Date(a.created_at).toLocaleString() : ""}
-                </span>
+                <span className="announcement-title">{announcement.title}</span>
+                <span className="announcement-date">{announcement.date}</span>
               </div>
-              <p className="announcement-text">{a.text}</p>
-              <p className="announcement-author">- Admin</p>
+              <p className="announcement-text">{announcement.content}</p>
             </div>
           ))}
-
-          {showModal && (
-            <div className="modal-backdrop">
-              <div className="modal">
-                <form onSubmit={handleSubmit}>
-                  <textarea
-                    value={announcement}
-                    onChange={(e) => setAnnouncement(e.target.value)}
-                    required
-                    placeholder="Write an announcement..."
-                  />
-                  <div className="modal-actions">
-                    <button type="submit">Post</button>
-                    <button type="button" onClick={() => setShowModal(false)}>
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Schedule */}
         <div className="schedule-card">
           <div className="card-header">
             <Calendar size={20} className="card-icon" />
             <h3 className="chart-title">Today's Schedule</h3>
           </div>
-
           {todaySchedule.map((item, index) => (
             <div key={index} className="schedule-item">
               <div className="schedule-time">{item.time}</div>
@@ -224,6 +177,7 @@ export default function Dashboard() {
         </div>
       </div>
     </main>
-    </div>
   );
-}
+};
+
+export default Dashboard;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MessageSquare, X } from "lucide-react";
-import "./FloatingMessages.css";
+import "../AdminWebsiteCSS/FloatingMessages.css";
 
 export default function FloatingMessages() {
   const [open, setOpen] = useState(false);
