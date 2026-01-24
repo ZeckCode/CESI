@@ -1,13 +1,17 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../Auth/useAuth"; // adjust path if needed
 
-const Login = ({ setUser }) => {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { login } = useAuth();
+
+  const from = location.state?.from?.pathname; // where user tried to go before login
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,74 +20,65 @@ const Login = ({ setUser }) => {
     try {
       const res = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
         method: "POST",
-        credentials: "include",
+        credentials: "include", // ✅ keep; harmless for JWT, required for cookies
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
-      const loginData = await res.json();
+      const data = await res.json();
 
-      if (!res.ok || !loginData?.success) {
-        setError(loginData?.message || "Invalid credentials");
+      if (!res.ok || !data?.success) {
+        setError(data?.message || "Invalid credentials");
         return;
       }
 
-      // Save user
-      setUser(loginData.user);
-      localStorage.setItem("user", JSON.stringify(loginData.user));
+      // ✅ Update AuthContext + localStorage (depending on how you updated AuthProvider)
+      // Expecting: data.user and optional data.token
+      login({ user: data.user, token: data.token });
 
-      // Go back to the page user tried to open (if any)
-      const from = location.state?.from?.pathname;
+      // ✅ Debug once (remove later)
+      // console.log("LOGIN DATA:", data);
+
+      // ✅ Redirect logic
+      // 1) If user was blocked by ProtectedRoute, go back there
       if (from) {
         navigate(from, { replace: true });
         return;
       }
 
-      // Otherwise go by role
-      switch (loginData.user.role) {
-        case "ADMIN":
-          navigate("/admin", { replace: true });
-          break;
-        case "TEACHER":
-          navigate("/teacher", { replace: true });
-          break;
-        case "PARENT_STUDENT":
-          navigate("/parent", { replace: true });
-          break;
-        default:
-          setError("Unauthorized role");
+      // 2) Otherwise redirect based on role
+      const role = data?.user?.role;
+
+      // If your backend uses different values (e.g., "Admin"), normalize:
+      const normalizedRole = typeof role === "string" ? role.toLowerCase() : "";
+
+      if (normalizedRole === "admin") navigate("/admin", { replace: true });
+      else if (normalizedRole === "teacher") navigate("/teacher", { replace: true });
+      else if (normalizedRole === "parent") navigate("/parent", { replace: true });
+      else {
+        // fallback if role missing
+        navigate("/", { replace: true });
       }
     } catch (err) {
-      console.error(err);
-      setError("Server error. Try again.");
+      setError("Login failed. Please try again.");
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button type="submit">Login</button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    <form onSubmit={handleLogin}>
+      <input
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Username"
+      />
+      <input
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+        type="password"
+      />
+      {error && <p>{error}</p>}
+      <button type="submit">Login</button>
+    </form>
   );
-};
-
-export default Login;
+}

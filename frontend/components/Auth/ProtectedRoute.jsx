@@ -1,13 +1,42 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "./useAuth";
 
-const ProtectedRoute = ({ user, role, authChecked, children }) => {
-  if (!authChecked) return null; // wait until /me finishes
+/**
+ * @param {string|string[]} role  Optional role or roles allowed
+ */
+export default function ProtectedRoute({ role, children }) {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-  if (!user) return <Navigate to="/login" replace />;
+  // Do NOT redirect while auth state is resolving
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  if (role && user.role !== role) return <Navigate to="/unauthorized" replace />;
+  // Not logged in → go to login and remember where user came from
+  if (!user) {
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location }}
+        replace
+      />
+    );
+  }
+
+  // Role-based authorization
+  if (role) {
+    const allowedRoles = Array.isArray(role) ? role : [role];
+
+    if (!allowedRoles.includes(user.role)) {
+      return <Navigate to="/unauthorized" replace />;
+    }
+  }
 
   return children;
-};
+}
 
-export default ProtectedRoute;
+
+// <ProtectedRoute role={["admin", "teacher"]}>
+//   <GradesPage />
+// </ProtectedRoute>
