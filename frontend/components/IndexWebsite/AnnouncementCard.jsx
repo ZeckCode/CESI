@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../IndexWebsiteCSS/AnnouncementCard.css"; // create this CSS file
-
+import '../IndexWebsiteCSS/App.css';
 function AnnouncementCard({ title, date, image, description }) {
   const [expanded, setExpanded] = useState(false);
 

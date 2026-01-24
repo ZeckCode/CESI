@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Users } from 'lucide-react';
-import '../AdminWebsiteCSS/ClassManagement.css';
+import '../AdminWebsiteCSS/AssignTeachers.css';
 
 const AssignTeachers = () => {
   // Sample classes data
@@ -21,36 +21,36 @@ const AssignTeachers = () => {
   ]);
 
   return (
-    <div className="class-management">
+    <div className="admin-class-management">
       {/* Header */}
-      <div className="class-header">
+      <div className="admin-class-header">
         <h1>Teacher Assignments</h1>
       </div>
 
       {/* Statistics */}
-      <div className="stats-grid">
-        <div className="stat-card">
+      <div className="admin-stats-grid">
+        <div className="admin-stat-card">
           <h3>Total Teachers</h3>
-          <p className="stat-number">{availableTeachers.length}</p>
+          <p className="admin-stat-number">{availableTeachers.length}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Classes Assigned</h3>
-          <p className="stat-number">{classes.length}</p>
+          <p className="admin-stat-number">{classes.length}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Total Students</h3>
-          <p className="stat-number">{classes.reduce((sum, c) => sum + c.enrolled, 0)}</p>
+          <p className="admin-stat-number">{classes.reduce((sum, c) => sum + c.enrolled, 0)}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Avg. Students/Teacher</h3>
-          <p className="stat-number">{Math.round(classes.reduce((sum, c) => sum + c.enrolled, 0) / availableTeachers.length)}</p>
+          <p className="admin-stat-number">{Math.round(classes.reduce((sum, c) => sum + c.enrolled, 0) / availableTeachers.length)}</p>
         </div>
       </div>
 
       {/* ASSIGN TEACHERS VIEW */}
-      <div className="assign-teachers-view">
-        <div className="teacher-assignment-table">
-          <table className="assignments-table">
+      <div className="admin-assign-teachers-view">
+        <div className="admin-teacher-assignment-table">
+          <table className="admin-assignments-table">
             <thead>
               <tr>
                 <th>Teacher Name</th>
@@ -71,18 +71,18 @@ const AssignTeachers = () => {
                   <tr key={idx}>
                     <td><strong>{teacher}</strong></td>
                     <td>
-                      <span className="badge">{teacherClasses.length}</span>
+                      <span className="admin-badge">{teacherClasses.length}</span>
                     </td>
                     <td>
-                      <span className="badge">{totalStudents}</span>
+                      <span className="admin-badge">{totalStudents}</span>
                     </td>
                     <td>
-                      <div className="subjects-list">
+                      <div className="admin-subjects-list">
                         {Array.from(allSubjects).slice(0, 2).map((s, i) => (
-                          <span key={i} className="subject-tag-small">{s}</span>
+                          <span key={i} className="admin-subject-tag-small">{s}</span>
                         ))}
                         {allSubjects.size > 2 && (
-                          <span className="subject-tag-small">+{allSubjects.size - 2}</span>
+                          <span className="admin-subject-tag-small">+{allSubjects.size - 2}</span>
                         )}
                       </div>
                     </td>
@@ -95,15 +95,15 @@ const AssignTeachers = () => {
       </div>
 
       {/* Teacher Details */}
-      <div className="teacher-details">
+      <div className="admin-teacher-details">
         {availableTeachers.map((teacher, idx) => {
           const teacherClasses = classes.filter(c => c.teacher === teacher);
           if (teacherClasses.length === 0) return null;
           
           return (
-            <div key={idx} className="teacher-card">
+            <div key={idx} className="admin-teacher-card">
               <h3>{teacher}</h3>
-              <div className="teacher-info">
+              <div className="admin-teacher-info">
                 <p><strong>Classes:</strong></p>
                 <ul>
                   {teacherClasses.map(cls => (
@@ -119,7 +119,7 @@ const AssignTeachers = () => {
       </div>
 
       {/* Developer Notes */}
-      <div className="note">
+      <div className="admin-note">
         📌 <strong>Development Notes:</strong> 
         <ul>
           <li>Implement drag-and-drop teacher assignment</li>

@@ -15,7 +15,7 @@ import FloatingMessages from './FloatingMessages';
 import CMSModule from './CMSModule';
 
 import '../AdminWebsiteCSS/AdminDashboard.css';
-
+// import '../AdminWebsiteCSS/App.css';
 function AdminDashboard() {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -78,7 +78,7 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="app-container">
+    <div className="admin-app-container">
       <Sidebar 
         activeMenu={activeMenu}
         onMenuClick={handleMenuClick}
@@ -87,7 +87,7 @@ function AdminDashboard() {
         onToggleCollapse={handleToggleSidebar}
       />
 
-      <div className={`main-content ${!sidebarVisible ? 'main-content-expanded' : ''}`}>
+      <div className={`admin-main-content ${!sidebarVisible ? 'admin-main-content-expanded' : ''}`}>
         <Header 
           title={getPageTitle()}
           subtitle="Welcome back! Here's what's happening today."

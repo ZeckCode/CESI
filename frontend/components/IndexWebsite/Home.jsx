@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import '../../App.css';
+import '../IndexWebsiteCSS/Home.css';
+import '../IndexWebsiteCSS/App.css';
 import Notebook from './Notebook';
 import logo from "../../assets/CESI-logo.jpg";
+
 // import Login from "./components/Login";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import AdminDashboard from "./components/AdminDashboard";

@@ -17,7 +17,11 @@ const Sidebar = ({ activeMenu, onMenuClick, isVisible, isCollapsed, onToggleColl
       id: 'financial',
       label: 'Financial Management',
       icon: Wallet,
-      subItems: ['Transaction History', 'Payment Reminders', 'Generate Reports']
+      subItems: [
+        { id: 'transaction-history', label: 'Transaction History' },
+        { id: 'payment-reminders', label: 'Payment Reminders' },
+        { id: 'generate-reports', label: 'Generate Reports' }
+      ]
     },
     { id: 'users', label: 'User Management', icon: UsersRound },
     { id: 'classes', label: 'Class Management', icon: BookOpen },
@@ -44,20 +48,30 @@ const Sidebar = ({ activeMenu, onMenuClick, isVisible, isCollapsed, onToggleColl
     else onMenuClick(menuId);
   };
 
-  const handleSubMenuClick = (subItem) => {
-    const pageId = subItem.toLowerCase().replace(/\s/g, '-');
-    onMenuClick(pageId);
+  const handleSubMenuClick = (subItemId) => {
+    onMenuClick(subItemId);
   };
 
+  // Auto-expand parent menu when submenu item is active
   useEffect(() => {
-    if (
-      activeMenu === 'transaction-history' ||
-      activeMenu === 'payment-reminders' ||
-      activeMenu === 'generate-reports'
-    ) {
-      setExpandedMenus(prev => ({ ...prev, financial: true }));
-    }
+    menuItems.forEach(item => {
+      if (item.subItems) {
+        const isSubItemActive = item.subItems.some(sub => sub.id === activeMenu);
+        if (isSubItemActive) {
+          setExpandedMenus(prev => ({ ...prev, [item.id]: true }));
+        }
+      }
+    });
   }, [activeMenu]);
+
+  // Check if item or any of its subitems is active
+  const isMenuItemActive = (item) => {
+    if (item.id === activeMenu) return true;
+    if (item.subItems) {
+      return item.subItems.some(sub => sub.id === activeMenu);
+    }
+    return false;
+  };
 
   return (
     <aside className={`sidebar ${!isVisible ? 'sidebar-hidden' : ''} ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
@@ -76,7 +90,7 @@ const Sidebar = ({ activeMenu, onMenuClick, isVisible, isCollapsed, onToggleColl
         {menuItems.map(item => (
           <div key={item.id} className="nav-item-wrapper">
             <div
-              className={`nav-item ${hoveredNav === item.id ? 'nav-item-hover' : ''}`}
+              className={`nav-item ${isMenuItemActive(item) ? 'nav-item-active' : ''} ${hoveredNav === item.id ? 'nav-item-hover' : ''}`}
               onClick={() => handleMenuClick(item.id, item.subItems)}
               onMouseEnter={() => setHoveredNav(item.id)}
               onMouseLeave={() => setHoveredNav(null)}
@@ -96,12 +110,12 @@ const Sidebar = ({ activeMenu, onMenuClick, isVisible, isCollapsed, onToggleColl
                 {item.subItems.map((subItem, idx) => (
                   <div
                     key={idx}
-                    className={`sub-nav-item ${hoveredSubNav === `${item.id}-${idx}` ? 'sub-nav-item-hover' : ''}`}
-                    onClick={() => handleSubMenuClick(subItem)}
+                    className={`sub-nav-item ${subItem.id === activeMenu ? 'sub-nav-item-active' : ''} ${hoveredSubNav === `${item.id}-${idx}` ? 'sub-nav-item-hover' : ''}`}
+                    onClick={() => handleSubMenuClick(subItem.id)}
                     onMouseEnter={() => setHoveredSubNav(`${item.id}-${idx}`)}
                     onMouseLeave={() => setHoveredSubNav(null)}
                   >
-                    {subItem}
+                    {subItem.label}
                   </div>
                 ))}
               </div>

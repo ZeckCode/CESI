@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter, Clock, Users, BookOpen, Calendar } from 'lucide-react';
-import '../AdminWebsiteCSS/ClassManagement.css';
+import '../AdminWebsiteCSS/AdminClassManagement.css';
 
 /**
  * ClassManagement Component
@@ -273,42 +273,42 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
   };
 
   return (
-    <div className="class-management">
+    <div className="admin-class-management">
       {/* Header */}
-      <div className="class-header">
+      <div className="admin-class-header">
         <h1>Class Management</h1>
         {activeTab === 'classes' && (
-          <button className="btn-primary" onClick={() => setShowClassForm(true)}>
+          <button className="admin-btn-primary" onClick={() => setShowClassForm(true)}>
             <Plus size={18} /> Add New Class
           </button>
         )}
       </div>
 
       {/* Tabs */}
-      <div className="tabs-container">
+      <div className="admin-tabs-container">
         <button 
-          className={`tab-btn ${activeTab === 'classes' ? 'active' : ''}`}
+          className={`admin-tab-btn ${activeTab === 'classes' ? 'active' : ''}`}
           onClick={() => { setActiveTab('classes'); setSearchTerm(''); setFilterGrade('All'); }}
         >
           <BookOpen size={18} />
           Classes ({stats.totalClasses})
         </button>
         <button 
-          className={`tab-btn ${activeTab === 'schedule' ? 'active' : ''}`}
+          className={`admin-tab-btn ${activeTab === 'schedule' ? 'active' : ''}`}
           onClick={() => { setActiveTab('schedule'); setSearchTerm(''); }}
         >
           <Calendar size={18} />
           Schedules
         </button>
         <button 
-          className={`tab-btn ${activeTab === 'subjects' ? 'active' : ''}`}
+          className={`admin-tab-btn ${activeTab === 'subjects' ? 'active' : ''}`}
           onClick={() => { setActiveTab('subjects'); setSearchTerm(''); }}
         >
           <BookOpen size={18} />
           Subjects
         </button>
         <button 
-          className={`tab-btn ${activeTab === 'assign-teachers' ? 'active' : ''}`}
+          className={`admin-tab-btn ${activeTab === 'assign-teachers' ? 'active' : ''}`}
           onClick={() => { setActiveTab('assign-teachers'); setSearchTerm(''); }}
         >
           <Users size={18} />
@@ -317,32 +317,32 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
       </div>
 
       {/* Statistics */}
-      <div className="stats-grid">
-        <div className="stat-card">
+      <div className="admin-stats-grid">
+        <div className="admin-stat-card">
           <h3>Total Classes</h3>
-          <p className="stat-number">{stats.totalClasses}</p>
+          <p className="admin-stat-number">{stats.totalClasses}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Total Students</h3>
-          <p className="stat-number">{stats.totalStudents}</p>
+          <p className="admin-stat-number">{stats.totalStudents}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Grade Levels</h3>
-          <p className="stat-number">{stats.gradeCount}</p>
+          <p className="admin-stat-number">{stats.gradeCount}</p>
         </div>
-        <div className="stat-card">
+        <div className="admin-stat-card">
           <h3>Avg. Capacity</h3>
-          <p className="stat-number">{stats.avgCapacity}</p>
+          <p className="admin-stat-number">{stats.avgCapacity}</p>
         </div>
       </div>
 
       {/* Class Form Modal */}
       {showClassForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="admin-modal-overlay">
+          <div className="admin-modal-content">
             <h2>{editingClassId ? 'Edit Class' : 'Add New Class'}</h2>
             
-            <div className="form-group">
+            <div className="admin-form-group">
               <label>Class Name *</label>
               <input
                 type="text"
@@ -353,8 +353,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               />
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
+            <div className="admin-form-row">
+              <div className="admin-form-group">
                 <label>Grade Level *</label>
                 <select name="gradeLevel" value={classFormData.gradeLevel} onChange={handleClassInputChange}>
                   <option value="">Select Grade Level</option>
@@ -368,7 +368,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                 </select>
               </div>
 
-              <div className="form-group">
+              <div className="admin-form-group">
                 <label>Teacher *</label>
                 <select name="teacher" value={classFormData.teacher} onChange={handleClassInputChange}>
                   <option value="">Select Teacher</option>
@@ -379,8 +379,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
+            <div className="admin-form-row">
+              <div className="admin-form-group">
                 <label>Capacity</label>
                 <input
                   type="number"
@@ -391,7 +391,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="admin-form-group">
                 <label>Currently Enrolled</label>
                 <input
                   type="number"
@@ -403,7 +403,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               </div>
             </div>
 
-            <div className="form-group">
+            <div className="admin-form-group">
               <label>Schedule</label>
               <input
                 type="text"
@@ -414,11 +414,11 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="admin-form-group">
               <label>Subjects</label>
-              <div className="subjects-grid">
+              <div className="admin-subjects-grid">
                 {availableSubjects.map(subject => (
-                  <label key={subject} className="subject-checkbox">
+                  <label key={subject} className="admin-subject-checkbox">
                     <input
                       type="checkbox"
                       checked={classFormData.subjects.includes(subject)}
@@ -430,9 +430,9 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               </div>
             </div>
 
-            <div className="form-actions">
-              <button className="btn-secondary" onClick={resetClassForm}>Cancel</button>
-              <button className="btn-primary" onClick={handleSaveClass}>
+            <div className="admin-form-actions">
+              <button className="admin-btn-secondary" onClick={resetClassForm}>Cancel</button>
+              <button className="admin-btn-primary" onClick={handleSaveClass}>
                 {editingClassId ? 'Update Class' : 'Save Class'}
               </button>
             </div>
@@ -441,8 +441,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
       )}
 
       {/* Search & Filter */}
-      <div className="class-controls">
-        <div className="search-box">
+      <div className="admin-class-controls">
+        <div className="admin-search-box">
           <Search size={18} />
           <input
             type="text"
@@ -453,7 +453,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
         </div>
 
         {activeTab === 'classes' && (
-          <div className="filter-box">
+          <div className="admin-filter-box">
             <Filter size={18} />
             <select value={filterGrade} onChange={(e) => setFilterGrade(e.target.value)}>
               {gradelevels.map(grade => (
@@ -466,26 +466,26 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* CLASSES VIEW */}
       {activeTab === 'classes' && (
-        <div className="classes-container">
+        <div className="admin-classes-container">
           {filteredClasses.length > 0 ? (
-            <div className="classes-grid">
+            <div className="admin-classes-grid">
               {filteredClasses.map(cls => (
-                <div key={cls.id} className="class-card">
-                  <div className="class-card-header">
+                <div key={cls.id} className="admin-class-card">
+                  <div className="admin-class-card-header">
                     <div>
                       <h3>{cls.name}</h3>
-                      <p className="class-grade">{cls.gradeLevel}</p>
+                      <p className="admin-class-grade">{cls.gradeLevel}</p>
                     </div>
-                    <div className="card-actions">
+                    <div className="admin-card-actions">
                       <button 
-                        className="btn-edit" 
+                        className="admin-btn-edit" 
                         onClick={() => handleEditClass(cls)}
                         title="Edit"
                       >
                         <Edit2 size={16} />
                       </button>
                       <button 
-                        className="btn-delete" 
+                        className="admin-btn-delete" 
                         onClick={() => handleDeleteClass(cls.id)}
                         title="Delete"
                       >
@@ -494,32 +494,32 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                     </div>
                   </div>
 
-                  <div className="class-card-body">
-                    <div className="info-row">
+                  <div className="admin-class-card-body">
+                    <div className="admin-info-row">
                       <span className="label">Teacher:</span>
                       <span className="value">{cls.teacher}</span>
                     </div>
 
-                    <div className="info-row">
+                    <div className="admin-info-row">
                       <span className="label">Enrollment:</span>
-                      <span className="value enrollment-bar">
+                      <span className="value admin-enrollment-bar">
                         {cls.enrolled}/{cls.capacity}
-                        <div className="progress-bar">
-                          <div className="progress-fill" style={{ width: `${(cls.enrolled/cls.capacity)*100}%` }}></div>
+                        <div className="admin-progress-bar">
+                          <div className="admin-progress-fill" style={{ width: `${(cls.enrolled/cls.capacity)*100}%` }}></div>
                         </div>
                       </span>
                     </div>
 
-                    <div className="info-row">
+                    <div className="admin-info-row">
                       <span className="label">Schedule:</span>
                       <span className="value"><Clock size={14} /> {cls.schedule}</span>
                     </div>
 
-                    <div className="subjects-section">
-                      <p className="subjects-label">Subjects:</p>
-                      <div className="subjects-list">
+                    <div className="admin-subjects-section">
+                      <p className="admin-subjects-label">Subjects:</p>
+                      <div className="admin-subjects-list">
                         {cls.subjects.map((subject, idx) => (
-                          <span key={idx} className="subject-tag">{subject}</span>
+                          <span key={idx} className="admin-subject-tag">{subject}</span>
                         ))}
                       </div>
                     </div>
@@ -528,7 +528,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               ))}
             </div>
           ) : (
-            <div className="no-results">
+            <div className="admin-no-results">
               <BookOpen size={48} />
               <p>No classes found. Try adjusting your search or filters.</p>
             </div>
@@ -538,8 +538,8 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* SCHEDULE VIEW */}
       {activeTab === 'schedule' && (
-        <div className="schedule-container">
-          <table className="schedule-table">
+        <div className="admin-schedule-container">
+          <table className="admin-schedule-table">
             <thead>
               <tr>
                 <th>Class</th>
@@ -558,17 +558,17 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                   <td>{cls.teacher}</td>
                   <td><Calendar size={14} /> {cls.schedule}</td>
                   <td>
-                    <span className="enrollment-badge">
+                    <span className="admin-enrollment-badge">
                       <Users size={14} /> {cls.enrolled}/{cls.capacity}
                     </span>
                   </td>
                   <td>
-                    <div className="subjects-list">
+                    <div className="admin-subjects-list">
                       {cls.subjects.slice(0, 2).map((s, i) => (
-                        <span key={i} className="subject-tag-small">{s}</span>
+                        <span key={i} className="admin-subject-tag-small">{s}</span>
                       ))}
                       {cls.subjects.length > 2 && (
-                        <span className="subject-tag-small">+{cls.subjects.length - 2}</span>
+                        <span className="admin-subject-tag-small">+{cls.subjects.length - 2}</span>
                       )}
                     </div>
                   </td>
@@ -581,19 +581,19 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* SUBJECTS VIEW */}
       {activeTab === 'subjects' && (
-        <div className="subjects-view">
-          <div className="section-header">
+        <div className="admin-subjects-view">
+          <div className="admin-section-header">
             <h2>Subject Management</h2>
-            <button className="btn-primary" onClick={() => setShowSubjectForm(!showSubjectForm)}>
+            <button className="admin-btn-primary" onClick={() => setShowSubjectForm(!showSubjectForm)}>
               <Plus size={18} /> Add Subject
             </button>
           </div>
 
           {showSubjectForm && (
-            <div className="form-card">
-              <div className="form-group">
+            <div className="admin-form-card">
+              <div className="admin-form-group">
                 <label>New Subject</label>
-                <div className="input-group">
+                <div className="admin-input-group">
                   <input
                     type="text"
                     value={newSubject}
@@ -601,34 +601,34 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                     placeholder="Enter subject name..."
                     onKeyPress={(e) => e.key === 'Enter' && handleAddSubject()}
                   />
-                  <button className="btn-primary" onClick={handleAddSubject}>Add</button>
-                  <button className="btn-secondary" onClick={() => { setShowSubjectForm(false); setNewSubject(''); }}>Cancel</button>
+                  <button className="admin-btn-primary" onClick={handleAddSubject}>Add</button>
+                  <button className="admin-btn-secondary" onClick={() => { setShowSubjectForm(false); setNewSubject(''); }}>Cancel</button>
                 </div>
               </div>
             </div>
           )}
 
-          <div className="subjects-grid-view">
+          <div className="admin-subjects-grid-view">
             {availableSubjects.map((subject, idx) => {
               const classesWithSubject = classes.filter(c => c.subjects.includes(subject));
               return (
-                <div key={idx} className="subject-card">
-                  <div className="subject-card-header">
+                <div key={idx} className="admin-subject-card">
+                  <div className="admin-subject-card-header">
                     <h3>{subject}</h3>
                     <button 
-                      className="btn-delete" 
+                      className="admin-btn-delete" 
                       onClick={() => handleDeleteSubject(subject)}
                       title="Delete subject"
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
-                  <div className="subject-info">
+                  <div className="admin-subject-info">
                     <p><strong>Classes: {classesWithSubject.length}</strong></p>
                     {classesWithSubject.length > 0 && (
-                      <div className="classes-list">
+                      <div className="admin-classes-list">
                         {classesWithSubject.map(cls => (
-                          <span key={cls.id} className="class-tag">{cls.name}</span>
+                          <span key={cls.id} className="admin-class-tag">{cls.name}</span>
                         ))}
                       </div>
                     )}
@@ -642,11 +642,11 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* ASSIGN TEACHERS FORM MODAL */}
       {showAssignmentForm && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="admin-modal-overlay">
+          <div className="admin-modal-content">
             <h2>Assign Teacher to Class</h2>
             
-            <div className="form-group">
+            <div className="admin-form-group">
               <label>Select Class *</label>
               <select 
                 value={assignmentFormData.classId} 
@@ -660,11 +660,11 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
             </div>
 
             {assignmentFormData.classId && (
-              <div className="form-group">
+              <div className="admin-form-group">
                 <label>Select Subjects to Teach *</label>
-                <div className="subjects-grid">
+                <div className="admin-subjects-grid">
                   {classes.find(c => c.id == assignmentFormData.classId)?.subjects.map(subject => (
-                    <label key={subject} className="subject-checkbox">
+                    <label key={subject} className="admin-subject-checkbox">
                       <input
                         type="checkbox"
                         checked={assignmentFormData.subjects.includes(subject)}
@@ -677,9 +677,9 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               </div>
             )}
 
-            <div className="form-actions">
-              <button className="btn-secondary" onClick={resetAssignmentForm}>Cancel</button>
-              <button className="btn-primary" onClick={handleSaveAssignment}>Save Assignment</button>
+            <div className="admin-form-actions">
+              <button className="admin-btn-secondary" onClick={resetAssignmentForm}>Cancel</button>
+              <button className="admin-btn-primary" onClick={handleSaveAssignment}>Save Assignment</button>
             </div>
           </div>
         </div>
@@ -687,19 +687,19 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
 
       {/* ASSIGN TEACHERS VIEW */}
       {activeTab === 'assign-teachers' && (
-        <div className="assign-teachers-view">
-          <div className="section-header">
+        <div className="admin-assign-teachers-view">
+          <div className="admin-section-header">
             <h2>Teacher Assignments & Management</h2>
-            <button className="btn-primary" onClick={() => setShowTeacherForm(!showTeacherForm)}>
+            <button className="admin-btn-primary" onClick={() => setShowTeacherForm(!showTeacherForm)}>
               <Plus size={18} /> Add Teacher
             </button>
           </div>
 
           {showTeacherForm && (
-            <div className="form-card">
-              <div className="form-group">
+            <div className="admin-form-card">
+              <div className="admin-form-group">
                 <label>New Teacher Name</label>
-                <div className="input-group">
+                <div className="admin-input-group">
                   <input
                     type="text"
                     value={newTeacher}
@@ -707,15 +707,15 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                     placeholder="Enter teacher name..."
                     onKeyPress={(e) => e.key === 'Enter' && handleAddTeacher()}
                   />
-                  <button className="btn-primary" onClick={handleAddTeacher}>Add</button>
-                  <button className="btn-secondary" onClick={() => { setShowTeacherForm(false); setNewTeacher(''); }}>Cancel</button>
+                  <button className="admin-btn-primary" onClick={handleAddTeacher}>Add</button>
+                  <button className="admin-btn-secondary" onClick={() => { setShowTeacherForm(false); setNewTeacher(''); }}>Cancel</button>
                 </div>
               </div>
             </div>
           )}
 
           {/* Teacher Cards with Assignments */}
-          <div className="teachers-grid">
+          <div className="admin-teachers-grid">
             {teachers.map((teacher) => {
               const assignments = teacherAssignments[teacher.id] || {};
               const assignedClasses = Object.keys(assignments).map(classId => 
@@ -724,14 +724,14 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
               const totalStudents = assignedClasses.reduce((sum, cls) => sum + cls.enrolled, 0);
 
               return (
-                <div key={teacher.id} className="teacher-card-large">
-                  <div className="teacher-card-header-large">
+                <div key={teacher.id} className="admin-teacher-card-large">
+                  <div className="admin-teacher-card-header-large">
                     <div>
                       <h3>{teacher.name}</h3>
-                      <p className="teacher-credentials">{teacher.qualifications}</p>
+                      <p className="admin-teacher-credentials">{teacher.qualifications}</p>
                     </div>
                     <button 
-                      className="btn-delete" 
+                      className="admin-btn-delete" 
                       onClick={() => handleDeleteTeacher(teacher.id, teacher.name)}
                       title="Delete teacher"
                     >
@@ -739,40 +739,40 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                     </button>
                   </div>
 
-                  <div className="teacher-card-body-large">
-                    <div className="teacher-stats">
-                      <div className="teacher-stat">
-                        <span className="stat-label">Experience</span>
-                        <span className="stat-value">{teacher.experience}</span>
+                  <div className="admin-teacher-card-body-large">
+                    <div className="admin-teacher-stats">
+                      <div className="admin-teacher-stat">
+                        <span className="admin-stat-label">Experience</span>
+                        <span className="admin-stat-value">{teacher.experience}</span>
                       </div>
-                      <div className="teacher-stat">
-                        <span className="stat-label">Classes Assigned</span>
-                        <span className="stat-value">{assignedClasses.length}</span>
+                      <div className="admin-teacher-stat">
+                        <span className="admin-stat-label">Classes Assigned</span>
+                        <span className="admin-stat-value">{assignedClasses.length}</span>
                       </div>
-                      <div className="teacher-stat">
-                        <span className="stat-label">Total Students</span>
-                        <span className="stat-value">{totalStudents}</span>
+                      <div className="admin-teacher-stat">
+                        <span className="admin-stat-label">Total Students</span>
+                        <span className="admin-stat-value">{totalStudents}</span>
                       </div>
                     </div>
 
                     {/* Assignments List */}
-                    <div className="assignments-section">
+                    <div className="admin-assignments-section">
                       <h4>Class Assignments</h4>
                       {assignedClasses.length > 0 ? (
-                        <div className="assignments-list">
+                        <div className="admin-assignments-list">
                           {assignedClasses.map(cls => (
-                            <div key={cls.id} className="assignment-item">
-                              <div className="assignment-info">
+                            <div key={cls.id} className="admin-assignment-item">
+                              <div className="admin-assignment-info">
                                 <strong>{cls.name}</strong>
-                                <span className="assignment-grade">{cls.gradeLevel}</span>
+                                <span className="admin-assignment-grade">{cls.gradeLevel}</span>
                               </div>
-                              <div className="assignment-subjects">
+                              <div className="admin-assignment-subjects">
                                 {assignments[cls.id]?.map(subject => (
-                                  <span key={subject} className="assignment-subject-tag">{subject}</span>
+                                  <span key={subject} className="admin-assignment-subject-tag">{subject}</span>
                                 ))}
                               </div>
                               <button
-                                className="btn-delete-small"
+                                className="admin-btn-delete-small"
                                 onClick={() => handleRemoveAssignment(teacher.id, cls.id)}
                                 title="Remove assignment"
                               >
@@ -782,13 +782,13 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
                           ))}
                         </div>
                       ) : (
-                        <p className="no-assignments">No classes assigned yet</p>
+                        <p className="admin-no-assignments">No classes assigned yet</p>
                       )}
                     </div>
 
                     {/* Add Assignment Button */}
                     <button 
-                      className="btn-primary-outline"
+                      className="admin-btn-primary-outline"
                       onClick={() => handleOpenAssignmentForm(teacher.id)}
                     >
                       <Plus size={16} /> Add Class Assignment
@@ -800,7 +800,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
           </div>
 
           {teachers.length === 0 && (
-            <div className="no-results">
+            <div className="admin-no-results">
               <Users size={48} />
               <p>No teachers added yet. Create a teacher to get started.</p>
             </div>
@@ -809,7 +809,7 @@ const ClassManagement = ({ initialTab = 'classes' }) => {
       )}
 
       {/* Developer Notes */}
-      <div className="note">
+      <div className="admin-note">
         📌 <strong>Development Notes:</strong> 
         <ul>
           <li>Connect to backend API for class CRUD operations (POST, PUT, DELETE)</li>

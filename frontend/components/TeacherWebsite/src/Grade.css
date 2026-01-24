@@ -1,0 +1,52 @@
+:root {
+  --yellow-main: #FDEF3B;
+  --yellow-soft: #FFFFDF;
+  --blue-sidebar: #98BCBE;
+  --primary-blue: #0077b6;
+}
+
+/* Sidebar Matches TeacherClassSchedule */
+.sidebar {
+  background-color: var(--blue-sidebar);
+  width: 240px; flex-shrink: 0; position: sticky; top: 0; height: 100vh;
+  z-index: 1000; transition: width 0.3s ease; overflow-x: hidden;
+}
+.sidebar.collapsed { width: 80px; }
+
+.avatar-circle {
+  width: 60px; height: 60px; background-color: white; color: var(--blue-sidebar);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 1.2rem;
+}
+
+.nav-link { transition: all 0.2s ease; border-radius: 8px; margin: 0.2rem 0; white-space: nowrap; }
+.active-link { background-color: var(--yellow-main) !important; color: #333 !important; font-weight: bold; }
+
+/* Grade Content Styling */
+.bg-soft-yellow { background-color: var(--yellow-soft); }
+
+.breakdown-card { border-left: 6px solid transparent; background: white; }
+.breakdown-card.passing { border-left-color: #198754; }
+.breakdown-card.failing { border-left-color: #dc3545; }
+
+.grade-input {
+    width: 75px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 6px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #f8f9fa;
+    transition: border-color 0.2s;
+}
+
+.grade-input:focus {
+    background-color: #fff;
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 119, 182, 0.1);
+}
+
+.bg-success-subtle { background-color: #d1e7dd; padding: 0.5em 1em; }
+.bg-danger-subtle { background-color: #f8d7da; padding: 0.5em 1em; }
+.x-small { font-size: 0.7rem; }

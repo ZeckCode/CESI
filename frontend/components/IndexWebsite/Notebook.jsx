@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AnnouncementCard from "./AnnouncementCard";
 import { useNavigate } from "react-router-dom";
 import '../IndexWebsiteCSS/Notebook.css';
-
+import '../IndexWebsiteCSS/App.css';
 const Notebook = ({ onClose }) => {
   const navigate = useNavigate();
 
@@ -158,7 +158,7 @@ const Notebook = ({ onClose }) => {
               <button className="action-btn enrollment-btn">
                 🎓 Enrollment Procedure
               </button>
-              
+             
               <div className="quick-info">
                 <h4>❓ Need Help?</h4>
                 <p>For admission inquiries, visit our Registrar's Office from Monday to Friday, 8:00 AM to 4:30 PM.</p>
@@ -166,10 +166,11 @@ const Notebook = ({ onClose }) => {
                 <h4>🔐 Portal Access</h4>
               <button
                     className="action-btn login-btn"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("./login")}
                   >
                     🔐 Login Portal
-                  </button> </div>
+                  </button> 
+                  </div> 
               <div className="quick-links">
                 <h4>🔗 Quick Links</h4>
                 <button className="link-btn">📄 Download Forms</button>
