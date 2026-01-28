@@ -1,12 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ParentDashboard.css';
+import '../ParentWebsiteCSS/ParentDashboard.css';
 
-export default function ParentDashboard() {
+const navLinks = [
+  { path: "/parent/dashboard", icon: "bi-speedometer2", label: "Dashboard", active: true },
+  { path: "/parent/profile", icon: "bi-person", label: "Student Info" },
+  { path: "/parent/ledger", icon: "bi-wallet2", label: "Payment Ledger" },
+  { path: "/parent/grades", icon: "bi-mortarboard", label: "Grades" },
+];
+
+const ParentDashboard = () => {
   const navigate = useNavigate();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredIdx, setHoveredIdx] = useState(null);
   const [recentGrades, setRecentGrades] = useState([]);
   const [recentPayments, setRecentPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsCollapsed(false);
+      } else {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetchDashboardData();
@@ -36,105 +58,234 @@ export default function ParentDashboard() {
     }
   };
 
+  const sidebarNav = (
+    <>
+      <div className="profile-img-container mb-4 text-center">
+        <div className="avatar-circle mx-auto mb-2">
+          {isCollapsed ? <i className="bi bi-person"></i> : <span className="fw-bold">JD</span>}
+        </div>
+        {!isCollapsed && <h6 className="mt-2 fw-bold text-white">John Doe</h6>}
+        {!isCollapsed && <small className="text-white-50">Parent</small>}
+      </div>
+      <ul className="nav nav-pills flex-column mb-auto">
+        {navLinks.map((item, idx) => (
+          <li className="nav-item mb-2" key={item.path}>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate(item.path); }}
+              className={`nav-link ${item.active ? 'active-link text-dark' : 'text-white'}${hoveredIdx === idx ? ' active-link' : ''}`}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+              style={{ cursor: 'pointer' }}
+            >
+              <i className={`bi ${item.icon} me-2`}></i>
+              {!isCollapsed && item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <button className="btn btn-danger btn-sm w-100 mt-auto d-flex align-items-center justify-content-center py-2 border-0">
+        <i className="bi bi-box-arrow-right"></i>
+        {!isCollapsed && <span className="ms-2">Log out</span>}
+      </button>
+    </>
+  );
+
   return (
-    <div className="parent-dashboard-container">
-      <div className="dashboard-header">
-        <h1>Welcome Back! 👋</h1>
-        <p>Here's an overview of your children's progress and school payments</p>
+    <div className="container-fluid p-0 d-flex flex-column flex-md-row min-vh-100">
+      {/* Mobile Header */}
+      <div className="sidebar-mobile-header w-100 d-flex d-md-none">
+        <button
+          className="btn btn-link text-white p-0 me-2"
+          onClick={() => setMobileMenuOpen(true)}
+        >
+          <i className="bi bi-list" style={{ fontSize: '2rem' }}></i>
+        </button>
+        <span className="fw-bold text-white">Parent Portal</span>
       </div>
 
-      <div className="dashboard-grid">
-        {/* Quick Stats */}
-        <div className="dashboard-card stats-card">
-          <h3>Quick Stats</h3>
-          <div className="stats-grid">
-            <div className="stat-item">
-              <span className="stat-value">2</span>
-              <span className="stat-label">Children</span>
+      {/* Mobile Sidebar */}
+      {mobileMenuOpen && (
+        <>
+          <div className="sidebar-mobile-backdrop" onClick={() => setMobileMenuOpen(false)}></div>
+          <nav className="sidebar-mobile-menu open p-3 text-white">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <span className="fw-bold">Menu</span>
+              <button className="btn btn-link text-white p-0" onClick={() => setMobileMenuOpen(false)}>
+                <i className="bi bi-x-lg" style={{ fontSize: '1.5rem' }}></i>
+              </button>
             </div>
-            <div className="stat-item">
-              <span className="stat-value">4</span>
-              <span className="stat-label">Subjects</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-value">₱5,500</span>
-              <span className="stat-label">Pending</span>
-            </div>
-          </div>
+            {sidebarNav}
+          </nav>
+        </>
+      )}
+
+      {/* Desktop Sidebar */}
+      <nav
+        className={`sidebar d-none d-md-flex flex-column p-3 text-white${isCollapsed ? ' collapsed' : ''}`}
+        onMouseEnter={() => setIsCollapsed(false)}
+        onMouseLeave={() => setIsCollapsed(true)}
+      >
+        <button
+          className="btn btn-sm mb-3 border-0 text-white align-self-end"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          <i className={`bi ${isCollapsed ? 'bi-list' : 'bi-chevron-left'}`} style={{ fontSize: '1.5rem' }}></i>
+        </button>
+        {sidebarNav}
+      </nav>
+
+      {/* Main Content */}
+      <main className="flex-grow-1 p-4 bg-soft-yellow" style={{ minWidth: 0 }}>
+        <div className="mb-4">
+          <h2 className="fw-bold text-dark mb-1">Welcome Back! 👋</h2>
+          <p className="text-muted mb-0">Here's an overview of your children's progress and school payments</p>
         </div>
 
-        {/* Recent Grades */}
-        <div className="dashboard-card grades-card">
-          <div className="card-header">
-            <h3>📚 Recent Grades</h3>
-            <button onClick={() => navigate('/parent/grades')} className="view-all-btn">
-              View All →
-            </button>
-          </div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : recentGrades.length > 0 ? (
-            <div className="grades-list">
-              {recentGrades.map(grade => (
-                <div key={grade.id} className="grade-item-compact">
-                  <span className="subject">{grade.subject.replace(/_/g, ' ')}</span>
-                  <span className="score">{grade.score}%</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>No grades available yet</p>
-          )}
-        </div>
-
-        {/* Payment Status */}
-        <div className="dashboard-card payments-card">
-          <div className="card-header">
-            <h3>💰 Payment Status</h3>
-            <button onClick={() => navigate('/parent/ledger')} className="view-all-btn">
-              View Ledger →
-            </button>
-          </div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : recentPayments.length > 0 ? (
-            <div className="payments-list">
-              {recentPayments.map(payment => (
-                <div key={payment.id} className={`payment-item status-${payment.status.toLowerCase()}`}>
-                  <div>
-                    <span className="payment-type">{payment.transaction_type}</span>
-                    <span className="payment-amount">₱{payment.amount}</span>
+        <div className="row g-4">
+          {/* Recent Grades Card */}
+          <div className="col-12 col-lg-6">
+            <div className="card shadow-sm border-0 rounded-4 h-100">
+              <div className="card-header bg-dark text-white py-3 px-4">
+                <h6 className="mb-0 fw-bold">
+                  <i className="bi bi-mortarboard-fill me-2"></i>Recent Grades
+                </h6>
+              </div>
+              <div className="card-body">
+                {loading ? (
+                  <div className="text-center py-4">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
                   </div>
-                  <span className={`payment-status ${payment.status.toLowerCase()}`}>
-                    {payment.status}
-                  </span>
-                </div>
-              ))}
+                ) : recentGrades.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="table table-sm mb-0">
+                      <thead>
+                        <tr>
+                          <th>Subject</th>
+                          <th>Score</th>
+                          <th>Quarter</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentGrades.map((grade, idx) => (
+                          <tr key={idx}>
+                            <td className="fw-semibold">{grade.subject}</td>
+                            <td><span className="badge bg-primary">{grade.score}</span></td>
+                            <td>Q{grade.quarter}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-muted text-center py-3">No grades available</p>
+                )}
+              </div>
+              <div className="card-footer bg-light text-center py-2">
+                <a href="#" onClick={(e) => { e.preventDefault(); navigate('/parent/grades'); }} className="small text-decoration-none fw-bold">
+                  View All Grades →
+                </a>
+              </div>
             </div>
-          ) : (
-            <p>No payments found</p>
-          )}
-        </div>
+          </div>
 
-        {/* Announcements */}
-        <div className="dashboard-card announcements-card">
-          <h3>📢 Latest Announcements</h3>
-          <div className="announcements-list">
-            <div className="announcement-item">
-              <span className="date">Today</span>
-              <p>School will be closed on Monday for Teachers' Training Day</p>
-            </div>
-            <div className="announcement-item">
-              <span className="date">Yesterday</span>
-              <p>Q1 Report cards are now available for download</p>
-            </div>
-            <div className="announcement-item">
-              <span className="date">2 days ago</span>
-              <p>Final deadline for 2nd Quarter payments is January 31, 2026</p>
+          {/* Recent Payments Card */}
+          <div className="col-12 col-lg-6">
+            <div className="card shadow-sm border-0 rounded-4 h-100">
+              <div className="card-header bg-dark text-white py-3 px-4">
+                <h6 className="mb-0 fw-bold">
+                  <i className="bi bi-wallet2 me-2"></i>Payment Status
+                </h6>
+              </div>
+              <div className="card-body">
+                {loading ? (
+                  <div className="text-center py-4">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : recentPayments.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="table table-sm mb-0">
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentPayments.map((payment, idx) => (
+                          <tr key={idx}>
+                            <td className="fw-semibold">{payment.transaction_type}</td>
+                            <td>₱{parseFloat(payment.amount).toFixed(2)}</td>
+                            <td>
+                              <span className={`badge ${payment.status === 'PAID' ? 'bg-success' : payment.status === 'PENDING' ? 'bg-warning' : 'bg-danger'}`}>
+                                {payment.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-muted text-center py-3">No payments</p>
+                )}
+              </div>
+              <div className="card-footer bg-light text-center py-2">
+                <a href="#" onClick={(e) => { e.preventDefault(); navigate('/parent/ledger'); }} className="small text-decoration-none fw-bold">
+                  View Ledger →
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* Info Cards */}
+        <div className="row g-4 mt-2">
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card shadow-sm border-0 rounded-4 text-center">
+              <div className="card-body p-4">
+                <div className="display-6 text-primary mb-2">👨‍🎓</div>
+                <h6 className="fw-bold">Active Students</h6>
+                <p className="text-muted mb-0">2 Children</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card shadow-sm border-0 rounded-4 text-center">
+              <div className="card-body p-4">
+                <div className="display-6 text-success mb-2">✅</div>
+                <h6 className="fw-bold">Overall Status</h6>
+                <p className="text-muted mb-0">On Track</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card shadow-sm border-0 rounded-4 text-center">
+              <div className="card-body p-4">
+                <div className="display-6 text-warning mb-2">⚠️</div>
+                <h6 className="fw-bold">Pending Payments</h6>
+                <p className="text-muted mb-0">1 Due</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-6 col-lg-3">
+            <div className="card shadow-sm border-0 rounded-4 text-center">
+              <div className="card-body p-4">
+                <div className="display-6 text-info mb-2">📅</div>
+                <h6 className="fw-bold">Next Event</h6>
+                <p className="text-muted mb-0">Feb 15, 2025</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default ParentDashboard;
