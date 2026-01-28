@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'finance',
     'rest_framework',
     'corsheaders',
+    'finance',
+    'accounts',
 ]
 
 MIDDLEWARE = [
