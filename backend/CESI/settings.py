@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'announcements',
     'finance',
+    'grades',
     'rest_framework',
     'corsheaders',
     'accounts',

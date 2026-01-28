@@ -1,16 +1,18 @@
-import React, { useState } from 'react'; // Added useState
-import './Profile.css';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../ParentWebsiteCSS/Profile.css';
 
 // --- Responsive Sidebar Additions START ---
 const navLinks = [
-  { href: "Dashboard.html", icon: "bi-speedometer2", label: "Dashboard" },
-  { href: "index.html", icon: "bi-person", label: "Student Info", active: true },
-  { href: "Ledgers.html", icon: "bi-journal-text", label: "Ledger" },
-  { href: "Grades.html", icon: "bi-journal-text", label: "Grades" },
-  { href: "Schedule.html", icon: "bi-calendar-event", label: "Schedule" },
+  { path: "/parent/dashboard", icon: "bi-speedometer2", label: "Dashboard" },
+  { path: "/parent/profile", icon: "bi-person", label: "Student Info", active: true },
+  { path: "/parent/ledger", icon: "bi-journal-text", label: "Ledger" },
+  { path: "/parent/grades", icon: "bi-journal-text", label: "Grades" },
+  { path: "/parent/schedule", icon: "bi-calendar-event", label: "Schedule" },
 ];
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
@@ -48,9 +50,10 @@ const Profile = () => {
       </div>
       <ul className="nav nav-pills flex-column mb-auto">
         {navLinks.map((item, idx) => (
-          <li className="nav-item mb-2" key={item.href}>
+          <li className="nav-item mb-2" key={item.path}>
             <a
-              href={item.href}
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate(item.path); }}
               className={`nav-link ${item.active ? 'active-link text-dark' : 'text-white'}${hoveredIdx === idx ? ' active-link' : ''}`}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
@@ -117,15 +120,25 @@ const Profile = () => {
       </nav>
 
       {/* Main Content Area */}
-      <main className="content-area flex-grow-1 p-4 bg-soft-yellow">
+      <main className="flex-grow-1 p-4 bg-soft-yellow" style={{ minWidth: 0 }}>
+        <div className="mb-4">
+          <h2 className="fw-bold text-dark mb-1">Student Profile</h2>
+          <p className="text-muted mb-0">Personal and academic information</p>
+        </div>
+
         {/* Profile Hero Header */}
-        <div className="hero-card p-4 rounded-4 shadow-sm mb-4 d-flex align-items-center">
-          <div className="hero-avatar me-4 shadow">
-            <img src="https://via.placeholder.com/100" className="rounded-circle border border-white border-4" alt="Avatar" />
-          </div>
-          <div className="hero-text text-start">
-            <h1 className="fw-bold mb-0">{studentData.name}</h1>
-            <p className="mb-0 fs-5 text-muted">LRN No. {studentData.lrn} | <strong>{studentData.grade}</strong></p>
+        <div className="card shadow-sm border-0 rounded-4 mb-4 overflow-hidden">
+          <div className="card-body p-4 bg-blue d-flex align-items-center">
+            <div className="me-4">
+              <div className="avatar-circle" style={{ width: '80px', height: '80px', fontSize: '2rem' }}>
+                {studentData.name.charAt(0)}
+              </div>
+            </div>
+            <div className="text-start">
+              <h3 className="fw-bold mb-0 text-dark">{studentData.name}</h3>
+              <p className="mb-0 text-muted">LRN: {studentData.lrn}</p>
+              <small className="text-muted fw-bold">{studentData.grade}</small>
+            </div>
           </div>
         </div>
         

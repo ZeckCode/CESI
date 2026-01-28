@@ -1,0 +1,198 @@
+/* UNIFIED PARENT WEBSITE DESIGN - Based on TeacherWebsite */
+
+:root {
+  --yellow-main: #FDEF3B;
+  --yellow-light: #FDFD96;
+  --yellow-soft: #FFFFDF;
+  --blue-main: #B1D9EC;
+  --blue-sidebar: #98BCBE;
+}
+
+/* ===== SIDEBAR STYLING ===== */
+.sidebar {
+  background-color: var(--blue-sidebar);
+  width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar.collapsed:hover {
+  width: 240px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--yellow-light) !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+
+/* ===== PROFILE SECTION ===== */
+.profile-img-container {
+  text-align: center;
+}
+
+.avatar-circle {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  color: var(--blue-sidebar);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 auto;
+}
+
+.sidebar .profile-img-container h6 {
+  color: white;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== MOBILE HEADER ===== */
+.sidebar-mobile-header {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    display: none !important;
+  }
+
+  .sidebar-mobile-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--blue-sidebar);
+    padding: 0.75rem 1rem;
+    min-height: 56px;
+    z-index: 1100;
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+
+  .sidebar-mobile-header .fw-bold {
+    color: white;
+  }
+
+  .sidebar-mobile-menu {
+    display: block;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: var(--blue-sidebar);
+    z-index: 1200;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+    transform: translateX(-100%);
+  }
+
+  .sidebar-mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-mobile-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1199;
+  }
+}
+
+/* ===== NAVIGATION LINKS ===== */
+.nav-link {
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  margin: 0.2rem 0;
+  white-space: nowrap;
+}
+
+.active-link {
+  background-color: var(--yellow-main) !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+
+/* ===== MAIN CONTENT AREA ===== */
+.bg-soft-yellow {
+  background-color: var(--yellow-soft);
+}
+
+.bg-blue {
+  background-color: var(--blue-main) !important;
+}
+
+/* ===== CARDS & COMPONENTS ===== */
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.icon-box {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== IMAGES ===== */
+img {
+  max-height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ===== TABLE STYLING ===== */
+.table {
+  transition: all 0.2s;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(177, 217, 236, 0.1);
+}
+
+/* ===== BUTTONS ===== */
+.btn-danger {
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+
+.btn-danger:hover {
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;
+}
+
+/* ===== RESPONSIVE UTILITY ===== */
+@media (max-width: 767.98px) {
+  .flex-grow-1 {
+    width: 100%;
+  }
+}

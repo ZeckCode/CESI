@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
+import '../ParentWebsiteCSS/Dashboard.css';
 
 
 // --- Responsive Sidebar Additions START ---
 const navLinks = [
-  { href: "Dashboard.html", icon: "bi-wallet2", label: "Dashboard", active: true },
-  { href: "index.html", icon: "bi-person", label: "Student Info" },
-  { href: "Ledgers.html", icon: "bi-journal-text", label: "Ledger" },
-  { href: "Grades.html", icon: "bi-mortarboard", label: "Grades" },
-  { href: "Schedule.html", icon: "bi-calendar-event", label: "Schedule" },
+  { path: "/parent/dashboard", icon: "bi-wallet2", label: "Dashboard", active: true },
+  { path: "/parent/profile", icon: "bi-person", label: "Student Info" },
+  { path: "/parent/ledger", icon: "bi-journal-text", label: "Ledger" },
+  { path: "/parent/grades", icon: "bi-mortarboard", label: "Grades" },
+  { path: "/parent/schedule", icon: "bi-calendar-event", label: "Schedule" },
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   // Mobile menu
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,9 +44,10 @@ const Dashboard = () => {
       </div>
       <ul className="nav nav-pills flex-column mb-auto">
         {navLinks.map((item, idx) => (
-          <li className="nav-item mb-2" key={item.href}>
+          <li className="nav-item mb-2" key={item.path}>
             <a
-              href={item.href}
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate(item.path); }}
               className={`nav-link ${item.active ? 'active-link text-dark' : 'text-white'}${hoveredIdx === idx ? ' active-link' : ''}`}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
@@ -111,10 +114,11 @@ const Dashboard = () => {
       </nav>
 
       {/* Main Content Area */}
-      <main className="flex-grow-1 p-4 bg-soft-yellow">
-        <header className="mb-4">
-          <h2 className="fw-bold text-dark text-uppercase">Student Dashboard</h2>
-        </header>
+      <main className="flex-grow-1 p-4 bg-soft-yellow" style={{ minWidth: 0 }}>
+        <div className="mb-4">
+          <h2 className="fw-bold text-dark mb-1">Student Dashboard</h2>
+          <p className="text-muted mb-0">Welcome back! Here's your academic overview</p>
+        </div>
         {/* ...existing code... */}
         <div className="row g-4">
           <div className="col-12 col-lg-8">

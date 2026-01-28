@@ -1,0 +1,341 @@
+.parent-ledger-container {
+  max-width: 1200px;
+}
+
+.ledger-header {
+  margin-bottom: 2rem;
+}
+
+.ledger-header h1 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  color: #2d3748;
+}
+
+.ledger-header p {
+  color: #718096;
+  margin: 0;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.summary-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.summary-card .amount {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.summary-card.total {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.summary-card.paid {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+
+.summary-card.pending {
+  background: linear-gradient(135deg, #ecc94b 0%, #d69e2e 100%);
+  color: #1a202c;
+}
+
+.summary-card.overdue {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+
+.ledger-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: #e2e8f0;
+  border: 2px solid #cbd5e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #4a5568;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: #667eea;
+}
+
+.filter-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.refresh-btn {
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: auto;
+  transition: background 0.2s;
+}
+
+.refresh-btn:hover {
+  background: #764ba2;
+}
+
+.loading,
+.error,
+.no-data {
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.error {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.no-data {
+  color: #718096;
+}
+
+.transactions-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom: 2px solid #667eea;
+}
+
+.transactions-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.transactions-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #2d3748;
+}
+
+.transactions-table tbody tr {
+  transition: background 0.2s;
+}
+
+.transactions-table tbody tr:hover {
+  background: #f7fafc;
+}
+
+.transactions-table tbody tr.status-paid {
+  border-left: 4px solid #48bb78;
+}
+
+.transactions-table tbody tr.status-pending {
+  border-left: 4px solid #ecc94b;
+}
+
+.transactions-table tbody tr.status-overdue {
+  border-left: 4px solid #f56565;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.description p {
+  margin: 0;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.description small {
+  color: #718096;
+  font-size: 0.8rem;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #edf2f7;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.amount {
+  font-weight: bold;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.status-badge.badge-success {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.status-badge.badge-warning {
+  background: #feebc8;
+  color: #7c2d12;
+}
+
+.status-badge.badge-danger {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pay-btn {
+  background: #667eea;
+  color: white;
+}
+
+.pay-btn:hover {
+  background: #764ba2;
+}
+
+.urgent-btn {
+  background: #f56565;
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+.urgent-btn:hover {
+  background: #e53e3e;
+}
+
+.download-btn {
+  background: #48bb78;
+  color: white;
+}
+
+.download-btn:hover {
+  background: #38a169;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ledger-filters {
+    flex-direction: column;
+  }
+
+  .filter-buttons {
+    width: 100%;
+  }
+
+  .refresh-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .transactions-table {
+    font-size: 0.9rem;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 0.75rem;
+  }
+
+  .action-btn {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .transactions-table {
+    font-size: 0.8rem;
+  }
+
+  .transactions-table th {
+    font-size: 0.75rem;
+  }
+}

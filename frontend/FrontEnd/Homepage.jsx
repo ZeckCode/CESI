@@ -6,7 +6,7 @@ import Home from "./src/components/IndexWebsite/Home";
 import Login from "./src/components/Auth/Login";
 import AdminDashboard from "./src/components/AdminWebsite/AdminDashboard";
 import TeacherDashboard from "./src/components/TeacherWebsite/TeacherDashboard";
-import ParentDashboard from "./src/components/ParentWebsite/ParentDashboard";
+import ParentWebsite from "./src/components/ParentWebsite/ParentWebsite";
 
 export default function Homepage() {
   const { user } = useAuth();
@@ -17,7 +17,7 @@ export default function Homepage() {
       <Route path="/login" element={<Login />} />
 
       <Route
-        path="/admin"
+        path="/admin/*"
         element={
           <ProtectedRoute role="ADMIN">
             <AdminDashboard />
@@ -26,7 +26,7 @@ export default function Homepage() {
       />
 
       <Route
-        path="/teacher"
+        path="/teacher/*"
         element={
           <ProtectedRoute role="TEACHER">
             <TeacherDashboard />
@@ -35,10 +35,10 @@ export default function Homepage() {
       />
 
       <Route
-        path="/parent"
+        path="/parent/*"
         element={
           <ProtectedRoute role="PARENT_STUDENT">
-            <ParentDashboard />
+            <ParentWebsite />
           </ProtectedRoute>
         }
       />

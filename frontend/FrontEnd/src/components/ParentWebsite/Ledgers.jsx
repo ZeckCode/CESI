@@ -1,19 +1,21 @@
 
 import React, { useState } from 'react';
-import './Ledgers.css';
+import { useNavigate } from 'react-router-dom';
+import '../ParentWebsiteCSS/Ledgers.css';
 
 // (Duplicate TransactionForm removed)
 
 // --- Responsive Sidebar Additions START ---
 const navLinks = [
-  { href: "Dashboard.html", icon: "bi-speedometer2", label: "Dashboard" },
-  { href: "index.html", icon: "bi-person", label: "Student Info" },
-  { href: "Ledgers.html", icon: "bi-wallet2", label: "Ledgers", active: true },
-  { href: "Grades.html", icon: "bi-journal-text", label: "Grades" },
-  { href: "Schedule.html", icon: "bi-calendar-event", label: "Schedule" },
+  { path: "/parent/dashboard", icon: "bi-speedometer2", label: "Dashboard" },
+  { path: "/parent/profile", icon: "bi-person", label: "Student Info" },
+  { path: "/parent/ledger", icon: "bi-wallet2", label: "Ledgers", active: true },
+  { path: "/parent/grades", icon: "bi-journal-text", label: "Grades" },
+  { path: "/parent/schedule", icon: "bi-calendar-event", label: "Schedule" },
 ];
 
 const Ledgers = () => {
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState(null);
@@ -54,9 +56,10 @@ const Ledgers = () => {
       </div>
       <ul className="nav nav-pills flex-column mb-auto">
         {navLinks.map((item, idx) => (
-          <li className="nav-item mb-2" key={item.href}>
+          <li className="nav-item mb-2" key={item.path}>
             <a
-              href={item.href}
+              href="#"
+              onClick={(e) => { e.preventDefault(); navigate(item.path); }}
               className={`nav-link ${item.active ? 'active-link text-dark' : 'text-white'}${hoveredIdx === idx ? ' active-link' : ''}`}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
@@ -123,14 +126,19 @@ const Ledgers = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="content-area flex-grow-1 p-4 bg-soft-yellow">
-        <div className="card shadow-sm border-3 rounded-4 overflow-hidden">
-          {/* Header Section */}
-          <div className="card-header bg-blue p-4 border-0">
-            <div className="d-flex justify-content-between align-items-center">
-               <h3 className="mb-0 fw-bold text-dark">Student's Ledger</h3>
-               <span className="badge bg-white text-dark px-3 py-2 rounded-pill">S.Y. 2025-2026</span>
-            </div>
+      <main className="flex-grow-1 p-4 bg-soft-yellow" style={{ minWidth: 0 }}>
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+          <div>
+            <h2 className="fw-bold text-dark mb-1">Payment Ledger</h2>
+            <p className="text-muted mb-0">Track all transactions and payments - S.Y. 2025-2026</p>
+          </div>
+        </div>
+
+        <div className="card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+          <div className="card-header bg-dark text-white py-3 px-4 border-0">
+            <h6 className="mb-0 fw-bold">
+              <i className="bi bi-wallet2 me-2"></i>Transaction Records
+            </h6>
           </div>
 
           <div className="card-body p-0">
